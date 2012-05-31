@@ -1,0 +1,213 @@
+<script type="text/javascript" src="js/bug.index.js"></script>
+<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+// 用户设置的默认查询
+var G_defaultBugSearch = '<?php echo $this->defaultBugSearch?>';
+// 当前用户组的类型
+var G_groupType = <?php echo $this->groupType?>;
+</script>
+<?php echo includeFile('/Common/Bug-menu.html')?>
+
+<style type="text/css">
+#select_project{
+text-align:center;
+margin-bottom: 10px;
+}
+#list_title{
+}
+
+#proTitle{
+cursor:pointer;
+font-size:22px;
+font-weight:bold;
+color: #266298;
+}
+
+#promenu{
+border: 1px solid #C5D7EF;
+left:10px;
+cursor:pointer;
+display:none;
+position:absolute;
+width:140px;
+background-color:mintcream;
+}
+#list_title span{
+color:red;
+font-size:12px;
+}
+#buglisttab{
+margin-top: 6px;
+margin-bottom: 6px;
+}  
+.lt{
+ color: #266298;
+}
+.bt{
+color: #999999;
+}
+.rb{
+color:red;
+font-weight:bold;
+}
+.moreDiv{
+display:none;
+margin-top: 6px;
+}
+</style>
+<div id="select_project">
+  <select id="projectid" style="display:none;" class="selectbox">
+  <option value="0"><?php echo L('all_project')?></option>
+	<?php foreach($this->projectList as $row):?>  
+	<option value="<?php echo $row['projectid']?>"><?php echo $row['projectname']?></option>
+	<?php endforeach;?>
+  </select> 
+  <span id="proTitle"><?php echo $this->projectid ? $this->projectInfo['projectname'] : L('all_project')?></span>
+  <?php if($this->projectid > 0):?>
+  (<a href="<?php echo url('project','view','projectid='.$this->projectid)?>" target="_blank"><?php echo L('look_project')?></a>)
+  <?php else:?>
+  (<?php echo L('swap_project')?>)
+  <?php endif;?>
+</div>
+
+<div id="list_title">
+<?php echo L('select_view')?>:
+  <select id="bugopt">
+  <option value="0"><?php echo L('all_bug')?></option>
+  <option value="1"><?php echo L('my_bug')?></option>
+  <option value="2"><?php echo L('my_create')?></option>
+  </select>
+  
+  <select id="bugstatus">
+  <option value="0"><?php echo L('all_status')?></option>
+  <?php foreach (QP_Sys::load('config')->get('bugconfig.status') as $k=>$val):?>
+  <option value="<?php echo $k?>"><?php echo $val?></option>
+  <?php endforeach;?>
+  </select>
+
+  <select id="priority">
+  <option value="0"><?php echo L('all_priority')?></option>
+  <?php foreach (QP_Sys::load('config')->get('bugconfig.priority') as $k=>$val):?>
+  <option value="<?php echo $k?>"><?php echo $val?></option>
+  <?php endforeach;?>
+  </select>
+    
+	<select id="verid">
+		<option value="0"><?php echo L('all_ver')?></option>
+		<?php foreach($this->versList as $row):?>  
+			<option value="<?php echo $row['verid']?>"><?php echo $row['vername']?></option>		
+		<?php endforeach;?>    
+	</select>
+	<select id="moduleid">
+		<option value="0"><?php echo L('all_module')?></option>
+		<?php foreach($this->modulesList as $row):?>  
+			<option value="<?php echo $row['moduleid']?>"><?php echo $row['modulename']?></option>		
+		<?php endforeach;?>    
+	</select>
+  (<?php echo $this->bugCount?> <?php echo L('bug')?>) | <span><?php echo L('new_bug')?></span>(<?php echo $this->newbugCount?>) | <span><?php echo L('sleep_bug')?></span>(<?php echo $this->sleepbugCount?>)
+  <a href="" id="moreSearch"><?php echo L('more_condition')?>&gt;&gt;</a>
+  <a href="" id="exportExcel"><?php echo L('export_excel')?>&gt;&gt;</a>
+  <a id="saveDefaultBtn" href=""><?php echo L('save_default_show')?></a>
+</div>
+<!-- 更多查询条件 -->
+<div id="moreSearchDiv" class="moreDiv">
+<?php echo L('opt_user')?>:
+    <select id="usertype">
+      <option value="createuid"><?php echo L('creater')?></option>
+      <option value="touserid"><?php echo L('to_user')?></option>
+    </select>
+    <select id="usergroup">
+      <option value="0"><?php echo L('select_group')?></option>
+		<?php foreach($this->groupList as $row):?>  
+		<option value="<?php echo $row['groupid']?>"><?php echo $row['groupname']?></option>
+		<?php endforeach;?>
+    </select>
+    <select id="userid">
+	<option value="0"><?php echo L('select_user')?></option>
+    </select>
+<?php echo L('last_modify_time')?>:
+<input id="lastdate" type="text" readonly="true" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="vertical-align:middle;width:160px;" />
+
+    <button type="button" id="searchBtn"><?php echo L('search')?></button>
+    <button type="button" id="retBtn"><?php echo L('reset')?></button>
+</div>
+
+<!-- 导出出 Excel -->
+<div id="exportExcelDiv" class="moreDiv">
+<form id="fieldsForm">
+<table width="100%">
+	<tr class="data-tab-title">
+		<th><?php echo L('select_out_field')?></th>
+	</tr>
+	<tr>
+		<td>
+		<p>
+		<?php foreach($this->bugFields as $key=>$name):?>
+		<input type="checkbox" name="fields[]" value="<?php echo $key?>" checked="checked"/> <?php echo $name?>
+		<?php endforeach;?>
+		</p>
+		</td>
+	</tr>
+	<tr>
+	  <td>
+	  <input type="checkbox" id="chkall" checked="checked"/><?php echo L('check_all')?>  <button id="exportBtn" type="button"><?php echo L('export_excel')?></button>
+	  </td>
+	</tr>
+</table>
+</form>
+</div>
+
+<div id="list_bugs">
+<div class="pager"><?php echo $this->pageHtml?></div>
+
+<table width="100%" id="buglisttab">  
+  <tr class="data-tab-title">
+    <td>ID</td>
+    <td width="20%"><?php echo L('subject')?></td>
+    <?php if(fieldShow('projectid')):?><td><?php echo L('project')?></td><?php endif;?>
+    <?php if(fieldShow('verid')):?><td><?php echo L('ver')?></td><?php endif;?>
+    <?php if(fieldShow('moduleid')):?><td><?php echo L('module')?></td><?php endif;?>
+    <?php if(fieldShow('severity')):?><td><a href="" order="severity" by="0">[<?php echo L('severity')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('frequency')):?><td><a href="" order="frequency" by="0">[<?php echo L('frequency')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('bugtype')):?><td><a href="" order="bugtype" by="0">[<?php echo L('bugtype')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('status')):?><td><a href="" order="status" by="0">[<?php echo L('status')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('priority')):?><td><a href="" order="priority" by="0">[<?php echo L('priority')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('touserid')):?><td><a href="" order="touserid" by="0">[<?php echo L('to_user')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('dateline')):?><td><a href="" order="dateline" by="0">[<?php echo L('create_time')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('createuid')):?><td><a href="" order="createuid" by="0">[<?php echo L('creater')?>]</a></td><?php endif;?>
+    <?php if(fieldShow('lastuptime')):?><td><a href="" order="lastuptime" by="0">[<?php echo L('last_modify_time')?>]</a></td><?php endif;?>
+    <td><?php echo L('opt')?></td>
+  </tr>
+<tbody id="list_table">
+<?php foreach($this->bugList as $row):?>  
+  <tr class="<?php echo $row['status']==5 ? 'bt':''?>">
+    <td class="<?php echo $row['status']==5 ? 'bt':'lt'?>"><?php echo $row['bugid']?></td>
+    <td>
+    <a href="<?php echo url('this','view','bugid='.$row['bugid'])?>"><span class="<?php echo $row['status']==5 ? 'bt':'lt'?>"><?php echo $row['subject']?></span</a>
+    </td>
+    <?php if(fieldShow('projectid')):?><td><?php echo $row['projectname']?></td><?php endif;?>
+    <?php if(fieldShow('verid')):?><td><?php echo $row['vername']?></td><?php endif;?>
+    <?php if(fieldShow('moduleid')):?><td><?php echo $row['modulename']?></td><?php endif;?>
+    <?php if(fieldShow('severity')):?><td class="<?php echo $row['severity']>3 ? 'rb' : ''?>"><?php echo getBugCfgName('severity',$row['severity'])?></td><?php endif;?>
+    <?php if(fieldShow('frequency')):?><td><?php echo getBugCfgName('frequency',$row['frequency'])?></td><?php endif;?>
+    <?php if(fieldShow('bugtype')):?><td><?php echo getBugCfgName('bugtype',$row['bugtype'])?></td><?php endif;?>
+    <?php if(fieldShow('status')):?><td><?php echo getBugCfgName('status',$row['status'])?></td><?php endif;?>
+    <?php if(fieldShow('priority')):?><td><?php echo getBugCfgName('priority',$row['priority'])?></td><?php endif;?>
+    <?php if(fieldShow('touserid')):?><td><?php echo rtxUser($row['touserid'])?></td><?php endif;?>
+    <?php if(fieldShow('dateline')):?><td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td><?php endif;?>
+    <?php if(fieldShow('createuid')):?><td><?php echo rtxUser($row['createuid'])?></td><?php endif;?>
+    <?php if(fieldShow('lastuptime')):?><td><?php echo date('Y-m-d H:i:s',$row['lastuptime'])?></td><?php endif;?>
+    <td>
+    <?php if($this->currentUid == $row['createuid']):?>
+    <a href="<?php echo url('this','edit','bugid='.$row['bugid'])?>"><?php echo L('edit')?></a>
+    <a href="<?php echo url('this','remove','bugid='.$row['bugid'].'&bgurl='.urlencode($this->request->frontUrl()))?>" onclick="return confirm('<?php echo L('remove_confirm')?>')"><?php echo L('remove')?></a>
+    <?php endif;?>
+    </td>
+  </tr>
+<?php endforeach;?>   
+</tbody>  
+</table>
+<div class="pager"><?php echo $this->pageHtml?></div>
+</div>
+<div class="tips-div"><?php echo L('opt_tips')?><a href="<?php echo url('profile','buglistset')?>"><?php echo L('set_bug_field')?></a></div>
+<?php echo includeFile('/Common/Bug-public-tpl.html')?>

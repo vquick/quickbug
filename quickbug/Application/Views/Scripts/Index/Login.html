@@ -1,0 +1,59 @@
+<script type="text/javascript">
+$(function(){
+	$('#submitbtn').click(function(){
+		if($('#username').val()=='' || $('#passwd').val()==''){
+			return false;
+		}
+		$('#loginform')[0].submit();
+	});
+	$('#username,#passwd').bind('keyup',function(event){
+		if(event.keyCode == 13) {
+			if(this.id == 'username'){
+				$('#passwd').focus();
+			}else{
+				$('#submitbtn').click();
+			}
+		}
+	});
+
+<?php if(QP_Sys::config('sysconfig.rtx.enable')):?>
+	// 如果当前RTX自动登录了
+	var user = RTX.getUser();
+	if(user){
+		// 如果用户是RTX则自动登录
+		$.get(site_url('index','checkuser','username='+user.account),function(json){
+			if(json.result == 0){
+				location.href = site_url('index','index');
+			}
+		},'json');
+	}
+<?php endif;?>
+	
+	// 用户名得到焦点
+	$('#username').focus();
+});
+</script>
+<style type="text/css">
+.iw{width:200px;}
+</style>
+<div style="margin-top:40px;">
+<form id="loginform" method="post" action="">
+<table align="center" style="width:400px;">
+<tr>
+ <th colspan="2"><?php echo L('table_title')?></td></th>
+<tr>
+<td><?php echo L('txt_username')?>:</td>
+<td><input name="username" type="text" id="username" class="iw" /></td>
+</tr>
+<tr>
+<td><?php echo L('txt_passwd')?>:</td>
+<td><input name="passwd" type="password" id="passwd" class="iw" /></td>
+</tr>
+<tr>
+  <td colspan="2"><div align="center">
+    <button type="button" id="submitbtn"><?php echo L('btn_login')?></button>
+  </div></td>
+  </tr>
+</table>
+</form>
+</div>

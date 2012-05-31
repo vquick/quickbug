@@ -1,0 +1,9 @@
+<div class="con-menu">
+<?php echo L('sys_manage')?>:|
+<?php if(QP_Session_Session::get('login_priv')==2):?>
+<a href="<?php echo url('sys','autoreg')?>"><?php echo L('rtx_reg')?></a> |
+<a href="<?php echo url('sys','notify')?>"><?php echo L('send_group_msg')?></a> |
+<?php else:?>
+<a href="<?php echo url('sys','database')?>"><?php echo L('db_backup')?></a> |
+<?php endif?>
+</div>

@@ -1,0 +1,80 @@
+<script type="text/javascript" src="js/bug.count.js"></script>
+<style type="text/css">
+.count_tab{
+width:100%;
+margin-top:10px;
+}
+.count_tab span{
+color:#3333FF;
+}
+.tab_title{
+font-size:18px;
+background-color: #E1ECFE;
+font-weight:bold;
+color:green;
+}
+</style>
+<?php echo includeFile('/Common/Bug-menu.html')?>
+<table width="100%">
+  <tr>
+	  <th>
+		<select id="projectid" name="projectid">
+			<option value="0"><?php echo L('all_project')?></option>
+		</select>
+		<select id="verid" name="verid">
+			<option value="0"><?php echo L('all_ver')?></option>
+		</select>
+		<select id="moduleid" name="moduleid">
+			<option value="0"><?php echo L('all_module')?></option>
+		</select>
+		<button type="button" id="countBtn"><?php echo L('look_count')?></button>
+	  </th>
+  </tr>
+</table>
+
+<?php foreach($this->moreCountList as $project):/* 遍历所有的项目 */?>
+
+	<?php foreach($project['verscount'] as $ver):/* 项目中的版本 */?>
+		<table class="count_tab">
+		  <tr class="tab_title">
+			<td><?php echo $project['projectname']?> <?php echo $ver['vername']?></td>
+		  </tr>
+		  <?php foreach($ver['countlist'] as $lists):/* 详细统计 */?>
+		  <tr>
+			<td><b><?php echo $lists['title']?></b> | 
+				<?php foreach($lists['lists'] as $key=>$val):?>
+					<?php echo $key.':'.'<span>'.$val.'</span>'?>
+				<?php endforeach;?>
+			</td>
+		  </tr>
+		  <?php endforeach;?>
+		</table>
+	<?php endforeach;?>
+
+	<?php foreach($project['modulescount'] as $module):/* 项目中的模块 */?>
+		<table class="count_tab">
+		  <tr class="tab_title">
+			<td><?php echo $project['projectname']?> <?php echo $module['modulename']?></td>
+		  </tr>
+		  <?php foreach($ver['countlist'] as $lists):/* 详细统计 */?>
+		  <tr>
+			<td><?php echo $lists['title']?> | 
+				<?php foreach($lists['lists'] as $key=>$val):?>
+					<?php echo $key.':'.'<span>'.$val.'</span>'?>
+				<?php endforeach;?>
+			</td>
+		  </tr>
+		  <?php endforeach;?>
+		</table>
+	<?php endforeach;?>
+
+<?php endforeach;?>
+
+<div class="clear"></div>
+
+<!-- 下拉列表模块 -->
+<textarea id="options_tpl" style="display:none;">
+{for row in list}
+<option value="${row.key}">${row.value}</option>
+{/for}
+</textarea>

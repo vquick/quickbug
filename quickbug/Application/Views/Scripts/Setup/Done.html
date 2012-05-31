@@ -1,0 +1,36 @@
+<table width="1000" style="margin-top:10px;">
+  <tr>
+    <th><div align="center">
+      <h2><?php echo L('step_ok')?></h2>
+    </div></th>
+    </tr>
+
+  <tr>
+    <td><div align="center">
+	  <?php echo L('file_modify_tips')?>:
+	  <br/>
+	  <br/><?php echo L('db_config_file')?>:<?php echo realpath(APPLICATION_PATH.'/Configs/Database.php')?>
+	  <br/>
+	  <br/><?php echo L('sys_config_file')?>:<?php echo realpath(APPLICATION_PATH.'/Configs/Sysconfig.php')?>
+    </div></td>
+    </tr>
+
+  <tr>
+    <td>
+    <div align="center">
+    	<br/>
+	<span class="green"><?php echo L('sys_auto_register_tips')?><br/><br/>
+	<?php echo L('admin_user')?>: <span class="red">admin  / 123456</span> 
+	&nbsp;&nbsp;&nbsp;&nbsp;    
+	<?php echo L('pm_user')?>: <span class="red">pm  / 123456</span>
+	&nbsp;&nbsp;&nbsp;&nbsp;    
+	<?php echo L('test_user')?>: <span class="red">test  / 123456</span>
+	&nbsp;&nbsp;&nbsp;&nbsp;    
+	<?php echo L('dev_user')?>: <span class="red">dev  / 123456</span>
+	</span>	
+	<p style="margin-top:20px;"><a href="<?php echo $this->url?>" target="_blank"><strong><?php echo L('new_use_sys')?> &gt;&gt;</strong></a></p>
+    </div>
+    </td>
+    </tr>
+
+</table>

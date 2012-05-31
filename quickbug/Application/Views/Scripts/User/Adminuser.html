@@ -1,0 +1,140 @@
+<script type="text/javascript" src="js/user.adminuser.js"></script>
+<?php echo includeFile('/Common/User-menu.html')?>
+<table width="100%">
+  <tr>
+    <td colspan="9">
+<form action="" method="post" id="searchfrom">
+    <button type="button" id="addbut"><?php echo L('add_admin')?></button>
+    (<?php echo L('user_tips')?>)
+      <input type="text" value="" id="key" name="key">
+       <?php echo L('user_type')?>:
+      <select id="usertype" name="usertype">
+	  <option value="0"><?php echo L('all_user')?></option>
+	  <option value="1"><?php echo L('default_user')?></option>
+	  <option value="2"><?php echo L('rtx_user')?></option>
+      </select>
+      <?php echo L('user_priv')?>:
+      <select id="priv" name="priv">
+	  <option value="0"><?php echo L('all_user')?></option>
+	  <option value="2"><?php echo L('project_admin')?></option>
+	  <option value="3"><?php echo L('super_admin')?></option>
+            </select>
+      <?php echo L('status')?>:
+      <select id="enable" name="enable">
+	  <option value="-1"><?php echo L('all_user')?></option>
+	  <option value="1"><?php echo L('enable')?></option>
+	  <option value="0"><?php echo L('disabled')?></option>
+            </select>
+      <button type="button" id="searchbut"><?php echo L('search_admin')?></button>
+	  (<a href="" id="showall"><?php echo L('show_all')?></a>)
+</form>	  
+      </td>
+    </tr>
+  <tr class="data-tab-title">
+    <td>#UID</td>
+    <td><?php echo L('username')?></td>
+    <td width="100"><?php echo L('truename')?></td>
+    <td width="100"><?php echo L('email')?></td>
+    <td><?php echo L('user_type')?></td>
+    <td><?php echo L('user_priv')?></td>
+    <td><?php echo L('status')?></td>
+    <td><?php echo L('regtime')?></td>
+    <td style="color:red;">&nbsp;</td>
+  </tr>
+<tbody id="list_table">
+<?php foreach($this->lists as $row):?>
+<tr id="remove_tr_<?php echo $row['userid']?>">
+    <td>#<?php echo $row['userid']?></td>
+    <td>
+    <?php if($row['usertype']==2):?>
+    	<a href="" class="rtx"><?php echo $row['username']?></a>
+    <?php else:?>
+    	<?php echo $row['username']?>
+    <?php endif;?>
+    </td>
+    <td editval="<?php echo $row['truename']?>" editid="<?php echo $row['userid']?>" editfield="truename" class="ajax_edit"><?php echo $row['truename']?></td>
+    <td editval="<?php echo $row['email']?>" editid="<?php echo $row['userid']?>" editfield="email" class="ajax_edit"><?php echo $row['email']?></td>
+    <td>
+	<input type="radio" <?php if($row['usertype']==1):?> checked="checked"<?php endif;?> value="1" name="usertype_<?php echo $row['userid']?>" editid="<?php echo $row['userid']?>" editfield="usertype" class="ajax_radio"><?php echo L('default_user')?>
+    <input type="radio" <?php if($row['usertype']==2):?> checked="checked"<?php endif;?> value="2" name="usertype_<?php echo $row['userid']?>" editid="<?php echo $row['userid']?>" editfield="usertype" class="ajax_radio"><?php echo L('rtx_user')?>    
+	</td>
+        
+    <td>
+	<input type="radio" <?php if($row['priv']==2):?> checked="checked"<?php endif;?> value="2" name="priv_<?php echo $row['userid']?>" editid="<?php echo $row['userid']?>" editfield="priv" class="ajax_radio"><?php echo L('project_admin')?>  
+    <input type="radio" <?php if($row['priv']==3):?> checked="checked"<?php endif;?> value="3" name="priv_<?php echo $row['userid']?>" editid="<?php echo $row['userid']?>" editfield="priv" class="ajax_radio" /><?php echo L('super_admin')?>
+	</td>
+  
+    <td>
+	<input type="radio" <?php if($row['enable']==1):?> checked="checked"<?php endif;?> value="1" name="enable_<?php echo $row['userid']?>" editid="<?php echo $row['userid']?>" editfield="enable" class="ajax_radio"><?php echo L('enable')?>  
+    <input type="radio" <?php if($row['enable']==0):?> checked="checked"<?php endif;?> value="0" name="enable_<?php echo $row['userid']?>" editid="<?php echo $row['userid']?>" editfield="enable" class="ajax_radio" /><?php echo L('disabled')?>
+  </td>
+  
+    <td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+    <td>
+	<a href="" editid="<?php echo $row['userid']?>" class="edit_user"><?php echo L('edit')?></a> | 
+	<a href="" removeid="<?php echo $row['userid']?>" removename="<?php echo $row['username']?>" class="ajax_remove"><?php echo L('remove')?></a>
+	</td>
+  </tr>  
+<?php endforeach;?>
+</tbody>  
+<?php if($this->pageHtml):?>
+  <tr>
+    <td id="pages" colspan="9"><?php echo $this->pageHtml?></td>
+    </tr>
+<?php endif;?>	
+</table>
+
+<div class="tips-div"><?php echo L('opt_tips')?></div>
+
+
+<!-- 添加用户的HTML -->
+<textarea id="user_addedit_tpl" style="display:none;">
+<div style="width:400px;"><!-- 兼容弹出层IE下的问题  -->
+<form action="" method="post" id="submitfrom">
+<table width="100%">
+  <tr>
+    <td><?php echo L('user_type')?>:</td>
+    <td><input name="usertype" type="radio" value="1" checked="checked" />
+      <?php echo L('default_user')?>
+        <input type="radio" name="usertype" value="2" />
+        <?php echo L('rtx_user')?></td>
+  </tr>
+  <tr>
+    <td><?php echo L('username')?>:</td>
+    <td><input name="username" type="text" id="username" class="txt" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('truename')?>:</td>
+    <td><input name="truename" type="text" id="truename" class="txt" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('passwd')?>:</td>
+    <td><input name="passwd" type="password" id="passwd" class="txt" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('email')?>:</td>
+    <td><input name="email" type="text" id="email" class="txt" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('user_priv')?>:</td>
+    <td><input name="priv" type="radio" value="2" checked="checked" />
+      <?php echo L('project_admin')?>
+        <input type="radio" name="priv" value="3" />
+        <?php echo L('super_admin')?></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><button type="button" id="submitbtn"><?php echo L('submit_user')?></button></td>
+  </tr>
+</table>
+</form>
+</div>
+<div class="tips-div">
+<table width="100%">
+<tr><td><b style="color:red;"><?php echo L('note')?></b></td></tr>
+<tr><td><?php echo L('note_text1')?></td></tr>
+<tr><td><?php echo L('note_text2')?></td></tr>
+<tr><td><?php echo L('note_text3')?></td></tr>
+</table>
+</div>
+</textarea>

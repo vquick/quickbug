@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<title><?php if(isset($this->title)) echo  $this->title.'-'?><?php echo L('layout.sys_title')?></title>
+<link href="css/global.css" rel="stylesheet" type="text/css" />
+<?php if(QP_Sys::config('sysconfig.rtx.enable')):?>
+<!-- RTX控件 -->
+<object classid="clsid:5EEEA87D-160E-4A2D-8427-B6C333FEDA4D" id="RTXAX" width="0" height="0"></object>
+<?php endif;?>
+<!-- js 中要用到的语言 -->
+<script type="text/javascript">
+var LANG = <?php echo $this->jsLang?>;
+</script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.popdiv.js"></script>
+<script type="text/javascript" src="js/trimPath.template.1.1.2.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/autorun.js"></script>
+<script type="text/javascript">
+// 系统根目录
+var G_quickbug_base_url = '<?php echo QP_Sys::config('sysconfig.path')?>';
+// 当前登录的用户ID
+var G_userid = <?php echo QP_Session_Session::get('login_userid') ? QP_Session_Session::get('login_userid') : 0?>;
+// RTX通知是否可用
+var G_rtx_notify = <?php echo QP_Sys::config('sysconfig.rtx.enable')? 'true' : 'false'?>;
+// 邮件通知是否可用
+var G_email_notify = <?php echo QP_Sys::config('sysconfig.mail.enable')? 'true' : 'false'?>;
+</script>
+</head>
+<body>
+<div id="header">
+	<div id="topnav">
+		<p id="user_infor">
+			<?php if(QP_Session_Session::get('login_userid')):?>
+			<?php echo L('layout.welcome_title')?>[<?php echo $this->helper('common')->getUserPrivName(QP_Session_Session::get('login_priv'))?>]<a class="user" href="<?php echo url('profile','index')?>"><?php echo QP_Session_Session::get('login_username')?>(<?php echo QP_Session_Session::get('login_truename')?>)</a>
+			<a id="inviteNotifyA" href="<?php echo url('profile','invite')?>" style="color:red;display:none;"><img src="images/show.gif" /><span><?php echo L('layout.invite')?>(0)</span></a>
+			<a href="<?php echo url('index','logout')?>"><?php echo L('layout.logout')?></a>
+			<?php else:?>
+				<?php echo L('layout.welcome_delault')?>
+			<?php endif;?>
+		</p>
+		<ul id="top_link"> 
+			<?php if(QP_Session_Session::get('login_priv') == 2 || QP_Session_Session::get('login_priv') == 3 || QP_Session_Session::get('login_userid')<1):/*项目管理员*/?>
+			<li><a href="<?php echo url('sys','nav')?>">[<?php echo L('layout.sys_menu')?>]</a></li>
+			<?php endif;?>
+			<?php if(QP_Session_Session::get('login_priv')>1 || QP_Session_Session::get('login_userid')<1):/*管理员或项目管理员*/?>
+			<li><a href="<?php echo url('user','index')?>">[<?php echo L('layout.user_menu')?>]</a></li>
+			<?php endif;?>
+			<?php if(QP_Session_Session::get('login_priv') == 2 || QP_Session_Session::get('login_userid')<1):/*项目管理员*/?>
+			<li><a href="<?php echo url('project','index')?>">[<?php echo L('layout.project_menu')?>]</a></li>
+			<li><a href="<?php echo url('priv','index')?>">[<?php echo L('layout.priv_menu')?>]</a></li>
+			<?php endif;?>
+			<?php if(QP_Session_Session::get('login_priv') < 3 || QP_Session_Session::get('login_userid')<1):/*普通用户和项目管理员*/?>
+			<li><a href="<?php echo url('bug','nav')?>">[<?php echo L('layout.bug_menu')?>]</a></li>
+			<?php endif;?>
+			<li><a href="<?php echo url('profile','nav')?>">[<?php echo L('layout.profile_menu')?>]</a></li>
+			<li><a href="" id="about_sys">[<?php echo L('layout.about_menu')?>]</a></li>
+		</ul>
+	</div><!-- /topnav -->
+</div><!-- /header -->
+
+<div id="contents">
+	<?php echo $this->LayoutContent?>
+</div><!-- /contents -->
+
+<div id="footer">
+   <center> Copyright &#169; 2010-<script type="text/javascript">(function(){document.write(new Date().getFullYear())})()</script> <a href="http://www.vquickbug.com" target="_blank"><?php echo L('layout.sys_title')?></a>.
+   <img class="lang" lang="zh" alt="Chinese" title="Chinese" src="images/zh.gif" /> <img class="lang" lang="en" alt="English" title="English"  src="images/en.gif" />
+<script type="text/javascript">
+$(function(){
+	// 语言切换
+	$('#footer .lang').click(function(){
+		var params = 'lang='+$(this).attr('lang');
+		params += '&bgurl='+encodeURIComponent(location.href);
+		location.href = site_url('index','lang',params);
+	});	
+});
+</script>   
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="image" src="images/paypal.gif" border="0" name="submit" title="Quickbug Donate" alt="Quickbug Donate PayPal — The safer, easier way to pay online.">
+<img alt="" border="0" src="images/pixel.gif" width="1" height="1">
+</form>
+
+  </center>
+</div><!-- /footer -->
+  
+<!-- 公共的弹出层 -->
+<div id="pop_box_div" class="pop_box_div">
+	<div poptitle="1" class="pop_box_title"><span id="pop_box_title_text" class="pop_box_title_text"><?php echo L('layout.title')?></span><a popclose="1" class="pop_box_close" href="">[X]</a></div>
+	<div id="pop_box_centent" class="pop_box_centent"></div>
+</div>
+
+<!-- 浏览图片的层 -->
+<div id="view_img_div" style="display:none;position:absolute;top:10px;left:100px;">
+<img src="" width="200" height="200" />
+</div>
+</body>
+</html>

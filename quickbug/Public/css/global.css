@@ -1,0 +1,199 @@
+@charset "utf-8";
+/* CSS Document */
+body{ margin:0px; padding:0px; font-size:14px; color:#555;font-family:Arial, 宋体 ,"sans-serif";}
+ul,li,p,dt,dl,dd{ padding:0px; margin:0px; list-style:none; font-size:12px;}
+.clear{ clear:both; font-size:0px;}
+img{ border:0;}
+a{
+    color: #266298;
+    cursor: pointer;
+}
+a:link,a:visited{
+	text-decoration:none;
+}
+a:hover,a:active{
+	text-decoration:underline;
+}
+.clear{
+clear:both;
+}
+select {
+background-color:#FFFFFF;
+border:1px solid #C5D7EF;
+margin-right:4px;
+vertical-align:middle;
+color:#555;
+padding:2px;
+font-size: 14px;
+}
+.selectbox {
+    font-size: 18px;
+    height: 35px;
+    padding: 5px;
+    width: 150px;
+}
+button {
+   font-family: inherit;
+   font-size: inherit;
+   height:22px;
+   margin-right:4px;
+   vertical-align:middle;
+}
+input, textarea, select {
+font-family:inherit;
+font-size:inherit;
+font-weight:inherit;
+border:1px solid #C5D7EF;
+}
+.txt{
+width:150px;
+}
+.txt_red{
+color:red;
+font-weight:bold;
+}
+
+table{
+clear:both;
+vertical-align:middle;
+/* width:100%; */
+font-size:inherit;
+border:1px solid #C5D7EF;
+border-collapse: collapse;
+}
+tr{
+/* border:1px solid #C5D7EF;*/
+}
+table th {
+background:none repeat scroll 0 0 #E1ECFE;
+border-bottom:1px solid #C6D8EF;
+border-top:1px solid #C6D8EF;
+color:#24619E;
+vertical-align:middle;
+}
+table td,th {
+border-left:medium none;
+border-right:medium none;
+height:18px;
+line-height:18px;
+overflow:hidden;
+padding:4px 5px;
+text-align:left;
+white-space:nowrap;
+vertical-align:middle;
+}
+table th {
+font-weight:300;
+text-align:center;
+}
+
+/* 首部定义 */
+#header{
+margin-top:8px;
+margin-bottom:14px;
+}
+/* 导航 */
+#topnav {
+background-position:0 0;
+height:26px;
+min-width:970px;
+padding:10px 10px 0 15px;
+text-align:left;
+}
+/* 用户登录信息 */
+#user_infor {
+float:left;
+padding-top:5px;
+}
+#top_link {
+float:right;
+margin-top:1px;
+}
+#top_link li {
+margin-left:10px;
+border-top:1px solid #EEEEEE;
+float:left;
+height:21px;
+padding:3px 8px 0;
+font-size:14px;
+font-weight:bold;
+}
+li {
+list-style:none outside none;
+}
+
+/* 内容 */
+#contents{
+padding-left:10px;
+padding-right:10px;
+}
+
+/* 尾部定义 */
+#footer{
+margin-top:20px;
+clear:both;
+}
+
+/* 弹出层对话框 */
+.pop_box_div{
+/* filter: alpha(opacity=10); opacity:0.1; */
+background-color:#FFF;
+/* width: 500px; */
+border: 1px solid #ccc;
+display:none;
+}
+.pop_box_title{
+background-color:#E1ECFE;
+height: 26px; 
+line-height:26px;
+border-bottom:1px solid #ccc;
+}
+.pop_box_title_text{
+font-weight:bold;
+margin-left:4px;
+float:left;
+}
+.pop_box_close{
+/* background-color:#FF6666; */
+font-weight:bold;
+float:right;
+}
+.pop_box_centent{
+padding-top:6px;
+}
+
+/* 功能菜单 */
+.con-menu{
+margin-bottom:10px;
+}
+
+/* 数据表格TITLT */
+.data-tab-title{
+background: none repeat scroll 0 0 #E1ECFE;
+color: #24619E;
+}
+
+/* 操作提示层 */
+.tips-div{
+margin-top:10px;
+font-size:12px;
+}
+
+/* RTX 用户 */
+.rtx{
+color: #266298;
+cursor:pointer;
+}
+
+/* 语言切换 */
+.lang{
+cursor:pointer;
+}
+
+/* 分页 */
+.qp_pages{
+text-align:right;
+}
+.qp_pages em,a,strong{
+margin-left:6px;
+}

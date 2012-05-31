@@ -1,0 +1,30 @@
+<script type="text/javascript" src="js/profile.index.js"></script>
+<?php echo includeFile('/Common/Profile-menu.html')?>
+<div id="myinfo">
+<table width="100%">
+	<tr class="data-tab-title">
+		<td><?php echo L('user_name')?>:</td>
+		<td><strong><?php echo $this->userInfo['username']?></strong></td>
+	</tr>
+	<tr>
+		<td><?php echo L('new_passwd')?>:</td>
+		<td><input type="text" id="password" value="" />(<?php echo L('empty_passwd_info')?>)</td>
+	</tr>
+	<tr>
+		<td><?php echo L('true_name')?>:</td>
+		<td><input type="text" id="truename" value="<?php echo $this->userInfo['truename']?>" /></td>
+	</tr>
+	<tr>
+		<td><?php echo L('email')?>:</td>
+		<td><input type="text" id="email" value="<?php echo $this->userInfo['email']?>" /></td>
+	</tr>
+	<tr>
+		<td><?php echo L('rtx_opt')?>:</td>
+		<td><input type="checkbox" <?php if($this->userInfo['usertype'] != 2):?>disabled="disabled"<?php endif;?> id="rtxAutoLogin" value="1" <?php if($this->rtxAutoLogin):?>checked="checked"<?php endif;?> /><?php echo L('auto_login')?><br/>(<?php echo L('login_info')?>)</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><button type="button" id="submitBtn"><?php echo L('submit')?></button></td>
+	</tr>
+</table>
+</div>

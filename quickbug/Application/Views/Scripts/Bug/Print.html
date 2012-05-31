@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<title>QuickBug [#<?php echo $this->buginfo['bugid']?>] <?php echo $this->buginfo['subject']?>（<?php echo L('bug_stat')?>:<?php echo getBugCfgName('status',$this->buginfo['status'])?>）</title>
+<style type="text/css">
+body{ 
+margin:0px;
+padding:0px; 
+font-size:14px; 
+color:#555;
+font-family:Arial,宋体,"sans-serif";
+text-align:center;
+}
+table{
+margin:10px;
+margin-left:20px;
+clear:both;
+vertical-align:middle;
+border:1px solid #C5D7EF;
+border-collapse: collapse;
+width:800px;
+}
+tr{
+border:1px solid #C5D7EF;
+}
+table th {
+background:none repeat scroll 0 0 #E1ECFE;
+color:#24619E;
+vertical-align:middle;
+}
+table td,th {
+border:1px solid #C5D7EF;
+height:18px;
+line-height:18px;
+overflow:hidden;
+padding:4px 5px;
+text-align:left;
+white-space:nowrap;
+vertical-align:middle;
+}
+table th {
+font-weight:300;
+text-align:center;
+}
+</style>
+</head>
+<body onload="window.print();">
+<center>
+<table>
+	<tr>
+	<th colspan="6">[#<?php echo $this->buginfo['bugid']?>] <?php echo $this->buginfo['subject']?> （<?php echo L('bug_stat')?>:<?php echo getBugCfgName('status',$this->buginfo['status'])?>）</th>
+	</tr>
+	<tr>
+	<td ><?php echo L('project')?>:</td>
+	<td colspan="3"><?php echo $this->buginfo['projectname']?>--<?php echo $this->buginfo['vername']?>--<?php echo $this->buginfo['modulename']?></td>
+	<td ><?php echo L('create_time')?>:</td>
+	<td ><?php echo date('Y-m-d H:i:s',$this->buginfo['dateline'])?></td>
+	</tr>
+	<tr>
+	<td><?php echo L('to_user')?>:</td>
+	<td><?php echo rtxUser($this->buginfo['touserid'])?></td>
+	<td><?php echo L('creater')?>:</td>
+	<td><?php echo rtxUser($this->buginfo['createuid'])?></td>
+	<td><?php echo L('priority')?>:</td>
+	<td><?php echo getBugCfgName('priority',$this->buginfo['priority'])?></td>
+	</tr>
+	<tr>
+	<td><?php echo L('severity')?>:</td>
+	<td><?php echo getBugCfgName('severity',$this->buginfo['severity'])?></td>
+	<td><?php echo L('frequency')?>:</td>
+	<td><?php echo getBugCfgName('frequency',$this->buginfo['frequency'])?></td>
+	<td><?php echo L('bugtype')?>:</td>
+	<td><?php echo getBugCfgName('bugtype',$this->buginfo['bugtype'])?></td>
+	</tr>
+	<tr>
+	<th colspan="6">【<?php echo L('bug_info')?>】</th>
+	</tr>
+	<tr>
+	<td colspan="6"><?php echo $this->buginfo['info']?></td>
+	</tr>
+</table>
+
+<table>
+  <tr>
+    <th colspan="3">【<?php echo L('option_more')?>(<?php echo count($this->operatelist)?>)】</th>
+  </tr>
+  <?php foreach($this->operatelist as $row):?>
+  <tr>
+    <td><?php echo rtxUser($row['userid'])?></td>
+    <td><?php echo $row['text']?></td>
+    <td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+  </tr>
+  <?php endforeach;?>
+</table>
+
+<table>
+	<tr>
+	<th colspan="3" class="stitle">【<?php echo L('comments')?>(<?php echo count($this->commentlist)?>)】</th>
+	</tr>
+	<?php foreach($this->commentlist as $row):?>
+	<tr>
+	<td><?php echo rtxUser($row['userid'])?></td>
+	<td><?php echo toHtml($row['info'])?></td>
+	<td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+	</tr>
+	<?php endforeach;?>
+</table>
+
+<table>
+	<tr>
+	<th colspan="2" class="stitle">【<?php echo L('attachment')?>(<?php echo count($this->doclist)?>)】</th>
+	</tr>
+	<?php foreach($this->doclist as $row):?>
+	<tr>
+	<td><?php echo $row['docname']?></td>
+	<td>(<?php echo date('Y-m-d H:i:s',$row['dateline'])?>)</td>
+	</tr>
+	<?php endforeach;?>
+</table>
+</center>
+</body>
+</html>

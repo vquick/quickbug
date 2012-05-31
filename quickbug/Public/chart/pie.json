@@ -1,0 +1,21 @@
+{
+  "title":{
+    "text":"<title>",
+    "style": "{font-size: 20px; color:#0000ff; font-family: 宋体; text-align: center;}"
+  },
+  "elements":[
+    {
+      "type":          "pie",
+      "tip":           "#label#<br>#val# (#percent#)",
+      "colours":       [<color>],
+      "alpha":         0.6,
+      "animate":	[ { "type": "fade" }],
+      "start-angle":   50,      
+      "gradient-fill": true,
+      "no-labe-ls":     true,
+      "values": [
+        <values>
+      ]
+    }
+  ]
+}

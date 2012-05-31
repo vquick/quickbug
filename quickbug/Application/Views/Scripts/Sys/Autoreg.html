@@ -1,0 +1,24 @@
+<script type="text/javascript" src="js/sys.autoreg.js"></script>
+<?php echo includeFile('/Common/Sys-menu.html')?>
+<table width="100%">
+<tr><th colspan="2"><?php echo L('rtx_reg')?></th></tr>
+<tr>
+<td><?php echo L('company_email_suffix')?>:</td>
+<td><input id="emailAddr" type="text" value="<?php echo $this->emailAddr?>"/><button type="button" id="saveBtn"><?php echo L('save')?></button>
+<?php echo L('format')?>:"@domain.com"</td>
+</tr>
+<?php foreach($this->groupList as $row):?>
+<tr>
+<td><?php echo L('auto_register_to')?> <strong>[<?php echo $row['groupname']?>]</strong></td>
+<td><input name="" type="text" class="urlbox" value="<?php echo $this->domain.url('sys','rtxreg','groupid='.$row['groupid'])?>" size="100" readonly="true" /></td>
+</tr>
+<?php endforeach;?>
+<tr>
+  <td>&nbsp;</td>
+  <td>
+  <br/>
+  <?php echo L('rtx_prompt')?><br/>
+  <?php echo L('rtx_note')?>
+  </td>
+</tr>
+</table>

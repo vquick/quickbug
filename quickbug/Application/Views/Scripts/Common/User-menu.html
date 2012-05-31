@@ -1,0 +1,7 @@
+<div class="con-menu">
+<?php echo L('user_manage')?>:|
+<a href="<?php echo url('user','index')?>"><?php echo L('user_list')?></a> |
+<?php if(QP_Session_Session::get('login_priv') == 2):/*项目管理员*/?>
+<a href="<?php echo url('user','group')?>"><?php echo L('group_list')?></a> |
+<?php endif;?>
+</div>

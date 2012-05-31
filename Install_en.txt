@@ -1,0 +1,84 @@
+
+============== Download ==================
+
+http://www.vquickbug.com/?c=index&a=download
+
+
+
+
+============== online Demo ===============
+
+http://www.vquickbug.com/demo/public
+
+
+
+
+============== QuickBug Setup ==============
+
+Step 1:
+
+install : PHP(>=5.2) + Mysql + Apache/Nginx/IIs on Windows/Linux(Unix)
+Example: XAMPP http://www.apachefriends.org/en/xampp.html
+
+Step 2:
+
+download QuickBug copy to WWW Root
+
+Step 3:
+
+Modify Files
+
+-------- quickbug/Application/Configs/Appconfig.php ------
+'timezone'=>'UTC'
+----------------------------------------------------------
+
+more timezones: http://www.php.net/manual/en/timezones.php
+
+-------- quickbug/Application/Configs/Sysconfig.php ------
+'lang'=>'en'
+----------------------------------------------------------
+
+Step 4:
+
+IE/Firefox open url: http://127.0.0.1/quickbug/Public
+
+
+
+
+============= Virtual Host Example ============
+
+Step 1:
+
+--------- apache httpd.conf -------------
+NameVirtualHost *:80
+<VirtualHost *:80>
+    ServerName quickbug.com
+    DocumentRoot "/home/soft/quickbug/Public"
+	<Directory "/home/soft/quickbug/Public">
+	    Options Indexes FollowSymLinks MultiViews ExecCGI
+	    AllowOverride All
+	    Order allow,deny
+	    Allow from all
+	</Directory>
+</VirtualHost>
+------------------------------------------
+
+Step 2:
+
+---- c:\windows\system32\drivers\etc\hosts | /etc/hosts -----
+127.0.0.1 quickbug.com
+-------------------------------------------------------------
+
+Step 3:
+
+Restart Apache
+
+Step 4:
+
+IE/Firefox open url: http://quickbug.com
+
+
+
+========= Website ===========
+http://www.vquickbug.com
+

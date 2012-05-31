@@ -1,0 +1,10 @@
+<div class="con-menu">
+<?php echo L('my_manage')?>:|
+<?php if(privCheck('profile','index')):?><a href="<?php echo url('profile','index')?>"><?php echo L('my_info')?></a><?php endif;?>
+<?php if(QP_Session_Session::get('login_priv') != 3):/* 不是超级管理员 */?>
+<?php if(privCheck('profile','bugtpl')):?>
+ | <a href="<?php echo url('profile','bugtpl')?>"><?php echo L('my_tpl')?></a> | <?php endif;?>
+<a href="<?php echo url('profile','buglistset')?>"><?php echo L('bug_list_set')?></a> | 
+<a href="<?php echo url('profile','invite')?>"><?php echo L('invite_notify')?></a> | 
+<?php endif;?>
+</div>

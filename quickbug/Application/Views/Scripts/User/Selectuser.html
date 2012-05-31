@@ -1,0 +1,27 @@
+<table>
+<tr>
+  <td><?php echo L('user_group')?>:</td>
+  <td>
+	<select id="select_usergroup" class="sw">
+		<option value="0"><?php echo L('select_group')?></option>
+		<?php foreach($this->groupList as $row):?>  
+		<option value="<?php echo $row['groupid']?>"><?php echo $row['groupname']?></option>
+		<?php endforeach;?>
+	</select>
+	<select id="select_userid" class="sw">
+		<option value="0"><?php echo L('select_user')?></option>
+	</select>
+  </td>
+</tr>
+<tr>
+  <td><?php echo L('user')?>:</td>
+  <td>
+  <input type="text" id="select_users" value="" size="40"/>
+  <span id="select_tips"><br/>(<?php echo L('select_tips')?>)</span>
+  </td>
+</tr>
+<tr>
+  <td></td>
+  <td><button type="button" id="select_btn"><?php echo L('ok')?></button></td>
+</tr>
+</table>

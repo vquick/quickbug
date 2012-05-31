@@ -1,0 +1,47 @@
+{
+  "title":{
+    "text":  "<title>",
+    "style": "{font-size: 20px; color:#0000ff; font-family: 宋体; text-align: center;}"
+  },
+
+  "y_legend":{
+    "text": "QuickBug Report",
+    "style": "{color: #736AFF; font-size: 14px;}"
+  },
+
+  "elements":[
+    {
+      "type":      "bar_glass",
+      "alpha":     0.6,
+      "colour":    "#9933CC",
+      "text":      "<subject>",
+      "font-size": 16,
+      "on-show": {"type": "grow-up"},	      
+      "values" :   [<values>]
+    }
+  ],
+
+  "x_axis":{
+    "stroke":       1,
+    "tick_height":  10,
+    "colour":      "#d000d0",
+    "grid_colour": "#d0d0d0",
+      "font-size": 16,
+    "labels": {
+      "labels": [<labels>]
+    }
+   },
+
+  "y_axis":{
+    "stroke":      4,
+    "tick_length": 3,
+    "colour":      "#d000d0",
+    "grid_colour": "#00ff00",
+    "offset":      0,
+    "max":         <count>
+  },
+
+  "tooltip":{
+    "text": "TEST Tip<br>val=#val#, top=#top#"
+  }
+}

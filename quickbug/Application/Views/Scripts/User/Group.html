@@ -1,0 +1,69 @@
+<script type="text/javascript" src="js/user.group.js"></script>
+<?php echo includeFile('/Common/User-menu.html')?>
+<table width="100%">
+  <tr>
+    <td colspan="9">
+<form action="" method="post" id="searchfrom">
+    <button type="button" id="addbut"><?php echo L('add_group')?></button>
+    <?php echo L('group_name')?>
+      <input type="text" value="" id="key" name="key">
+      <button type="button" id="searchbut"><?php echo L('search_group')?></button>
+	  (<a href="" id="showall"><?php echo L('show_all')?></a>)
+</form>	  
+      </td>
+    </tr>
+  <tr class="data-tab-title">
+    <td>#GID</td>
+    <td width="120"><?php echo L('group_name')?></td>
+    <td><?php echo L('user_num')?></td>
+    <td width="120"><?php echo L('info')?></td>
+    <td><?php echo L('regtime')?></td>
+    <td style="color:red;">&nbsp;</td>
+  </tr>
+<tbody id="list_table">
+<?php foreach($this->lists as $row):?>
+<tr id="remove_tr_<?php echo $row['groupid']?>">
+    <td>#<?php echo $row['groupid']?></td>
+    <td editval="<?php echo $row['groupname']?>" editid="<?php echo $row['groupid']?>" editfield="groupname" class="ajax_edit"><?php echo $row['groupname']?></td>
+    <td><?php echo $row['usernum']?></td>
+    <td editval="<?php echo $row['info']?>" editid="<?php echo $row['groupid']?>" editfield="info" class="ajax_edit"><?php echo toHtml($row['info'])?></td>
+        
+    <td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+    <td>
+	<a href="" editid="<?php echo $row['groupid']?>" class="edit_group"><?php echo L('edit')?></a> | 
+	<a href="" removeid="<?php echo $row['groupid']?>" removename="<?php echo $row['groupname']?>" class="ajax_remove"><?php echo L('remove')?></a>
+	</td>
+  </tr>  
+<?php endforeach;?>
+</tbody>  
+<?php if($this->pageHtml):?>
+  <tr>
+    <td id="pages" colspan="9"><?php $this->pageHtml?></td>
+    </tr>
+<?php endif;?>	
+</table>
+
+<div class="tips-div"><?php echo L('group_opt_tips')?> </div>
+
+<!-- 添加<?php echo L('edit')?><?php echo L('user_group')?>的HTML -->
+<textarea id="group_addedit_tpl" style="display:none;">
+<div style="width:400px;"><!-- 兼容弹出层IE下的问题  -->
+<form action="" method="post" id="submitfrom">
+<table width="100%">
+  <tr>
+  <td><?php echo L('group_name')?>:</td>
+  <td><input class="ipt" name="groupname" type="text" id="groupname" size="22" /> <span class="txt_red">*</span></td>
+  </tr>
+  <tr>
+    <td><?php echo L('info')?>:</td>
+    <td><input class="ipt" name="info" type="text" id="info" size="22"/>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><button type="button"  id="submitbtn"><?php echo L('submit_group')?></button></td>
+  </tr>
+</table>  
+</form>
+</div>
+</textarea>

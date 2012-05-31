@@ -1,0 +1,30 @@
+<script type="text/javascript">
+$(function(){
+	// 如果当前RTX自动登录了
+	var user = RTX.getUser();
+	if(user){
+		// 如果用户是RTX则自动登录
+		var _groupid = get_url_param('groupid');
+		$.post(site_url('sys','rtxReg'),{username:user.account,truename:user.username,groupid:_groupid},function(json){
+			if(json.result == 0){
+				var url = site_url('index','login');
+				// var msg = '恭喜:自动注册成功,您现在可以 <a href="'+url+'">自动登录</a> 了.';
+				var msg = L('sys.reg_succ',[url]);
+			}else{
+				var msg = json.message;
+			}
+			$('#msgtd').html(msg);
+		},'json');
+	}else{
+		// 您没有安装RTX或不是用IE浏览器打开的这个地址
+		$('#msgtd').html(L('sys.reg_fail'));
+	}
+});
+</script>
+
+<center>
+<table style="margin:100px;width:500px;">
+<tr><th><?php echo L('msg_note')?></th></tr>
+<tr><td style="text-align:center;padding:10px;" id="msgtd"></td></tr>
+</table>
+</center>

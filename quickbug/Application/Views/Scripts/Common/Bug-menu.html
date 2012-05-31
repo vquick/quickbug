@@ -1,0 +1,11 @@
+<div class="con-menu">
+<?php echo L('bug_manage')?>:|
+<?php if(privCheck('bug','index')):?><a href="<?php echo url('bug','index')?>"><?php echo L('bug_list')?></a> | <?php endif;?>
+<?php if(privCheck('bug','add')):?><a href="<?php echo url('bug','add','projectid='.(isset($_GET['projectid'])?$_GET['projectid']:0))?>"><?php echo L('add_bug')?></a> | <?php endif;?>
+<?php if(privCheck('bug','search')):?><a href="<?php echo url('bug','search')?>"><?php echo L('more_search')?></a> |  <?php endif;?>
+<?php if(privCheck('bug','report')):?><a href="<?php echo url('bug','report')?>"><?php echo L('bug_report')?></a> | <?php endif;?>
+<?php if(privCheck('bug','morecount')):?><a href="<?php echo url('bug','morecount')?>"><?php echo L('bug_count')?></a> | <?php endif;?>
+<?php if(isset($_GET['a']) && $_GET['a']=='index'):/* BUG列表才有搜索功能 */?>
+<input type="text" id="search_text" /><input type="button" id="search_btn" value="<?php echo L('search')?>" />
+<?php endif;?>
+</div>

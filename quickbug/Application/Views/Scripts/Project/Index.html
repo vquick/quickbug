@@ -1,0 +1,190 @@
+<script type="text/javascript" src="js/project.index.js"></script>
+<style type="text/css">
+.divBlock{
+width:600px;
+border: 1px solid #C5D7EF;
+margin-bottom:6px;
+text-align:left;
+}
+#pinfo{
+height:150px;
+overflow:auto;
+margin-top:10px;
+margin-bottom:10px;
+line-height:150%;
+}
+
+.addPro{
+padding:10px;
+background: none repeat scroll 0 0 #E1ECFE;
+}
+.optPro{
+text-align:right;
+margin-right:10px;
+margin-bottom:10px;
+}
+.blue{
+color:#6699FF;
+}
+</style>
+<!--[if IE]>
+<style>
+h2{
+	padding-top:6px;
+}
+</style>
+<![endif]--> 
+<center>
+	<div class="divBlock">
+	<div class="addPro">
+		  <?php echo L('project_manage')?>:
+			<select id="project">
+		<?php foreach($this->projectList as $row):?>
+		<option value="<?php echo $row['projectid']?>"><?php echo $row['projectname']?></option>
+		<?php endforeach;?>
+		  </select>
+			<button type="button" id="addProjectBtn"><?php echo L('add_project')?></button>
+	</div>
+	<div align="center"><h1 class="blue"><?php echo $this->projectInfo['projectname']?></h1></div>
+	
+	<div>
+	<strong><?php echo L('vers_num')?>:</strong><strong class="blue"><?php echo $this->projectInfo['versnum']?> </strong>
+	<strong><?php echo L('modules_num')?>:</strong><strong class="blue"><?php echo $this->projectInfo['modulesnum']?> </strong>
+	<strong><?php echo L('bugs_num')?>:</strong><strong class="blue"><?php echo $this->projectInfo['bugsnum']?> </strong>
+	<strong><?php echo L('docs_num')?>:</strong><strong class="blue"><?php echo $this->projectInfo['docsnum']?> </strong>
+	</div>
+	
+	<?php if($this->projectInfo['info']):?>
+	<div id="pinfo"><?php echo toHtml($this->projectInfo['info'])?></div>
+	<?php endif;?>
+	
+	<div class="optPro"><a href="" projectid="<?php echo $this->projectInfo['projectid']?>" id="editProjectLink"><?php echo L('edit')?></a> / <a href="" projectid="<?php echo $this->projectInfo['projectid']?>" id="removeProjectLink"><?php echo L('remove')?></a></div>
+	</div>
+	
+	<div class="divBlock">
+	<table width="100%">
+	 <tr>
+	   <td colspan="6"><div align="center"><h2><?php echo L('project_doc')?></h2></div></td>
+	   </tr>
+	 <tr class="data-tab-title">
+		<td>#ID</td>
+		<td width="100"><?php echo L('doc_name')?></td>
+		<td><?php echo L('doc_size')?></td>
+		<td><?php echo L('doc_time')?></td>
+		<td><?php echo L('doc_opt')?></td>
+		<td>&nbsp;</td>
+	  </tr>
+	<tbody class="list_table">  
+	<?php foreach($this->docsList as $row):?>  
+	  <tr id="remove_doc_tr_<?php echo $row['pjdocid']?>">
+		<td>#<?php echo $row['pjdocid']?></td>
+		<td editval="<?php echo $row['docname']?>" editfield="docname" editid="<?php echo $row['pjdocid']?>" class="ajax_edit_doc"><?php echo $row['docname']?></td>
+		<td><?php echo showFileSize($row['docsize'])?></td>
+		<td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+		<td><a href="files/projectdocs/<?php echo $row['docfile']?>" isimg="<?php echo isImage($row['docfile'])?1:0?>" target="_blank"><?php echo L('open')?></a></td>
+		<td><a href="" removename="<?php echo $row['docname']?>" removeid="<?php echo $row['pjdocid']?>" class="ajax_remove_docs"><?php echo L('remove')?></a></td>
+	  </tr>
+	<?php endforeach;?>    
+	</tbody>  
+	
+	  <tr>
+		<td colspan="6">
+		<a id="addDocLink" href="">[<?php echo L('add_doc')?>]</a>（<?php echo L('add_doc_tips')?>）
+		<form action="" method="post" name="listfrom" id="listfrom" enctype="multipart/form-data">
+		<div id="uploadFiles"></div>
+		<div id="uploadBtnDiv" style="display:none;">
+		<input type="hidden" name="projectid" value="<?php echo $this->projectInfo['projectid']?>" />
+		<button type="button" id="uploadDocBtn"><?php echo L('upload_doc')?></button>
+		</div>
+		</form>
+		</td>
+		</tr>
+	</table>
+	</div>
+
+
+	<div class="divBlock">
+	<table width="100%">
+	 <tr>
+	   <td colspan="6"><div align="center"><h2><?php echo L('project_ver')?></h2></div></td>
+	   </tr>
+	 <tr class="data-tab-title">
+		<td width="100">#ID</td>
+		<td  width="150"><?php echo L('ver_name')?></td>
+		<td>&nbsp;</td>
+	  </tr>
+	<tbody class="list_table">  
+	<?php foreach($this->versList as $row):?>  
+	  <tr id="remove_ver_tr_<?php echo $row['verid']?>">
+		<td>#<?php echo $row['verid']?></td>
+		<td editval="<?php echo $row['vername']?>" editfield="vername" editid="<?php echo $row['verid']?>" class="ajax_edit_vers"><?php echo $row['vername']?></td>
+		<td><a href="" removename="<?php echo $row['vername']?>" removeid="<?php echo $row['verid']?>" class="ajax_remove_vers"><?php echo L('remove')?></a></td>
+	  </tr>
+	<?php endforeach;?>    
+	</tbody>  
+	  <tr>
+		<td colspan="3"><input type="text" id="vername"/><button type="button" id="addVerBtn"><?php echo L('add_ver')?></button></td>
+	  </tr>
+	</table>
+	</div>
+	
+	<div class="divBlock">
+	<table width="100%">
+	 <tr>
+	   <td colspan="6"><div align="center"><h2><?php echo L('project_module')?></h2></div></td>
+	   </tr>
+	 <tr class="data-tab-title">
+		<td width="100">#ID</td>
+		<td width="150"><?php echo L('module_name')?></td>
+		<td>&nbsp;</td>
+	  </tr>
+	<tbody class="list_table">  
+	<?php foreach($this->modulesList as $row):?>  
+	  <tr id="remove_module_tr_<?php echo $row['moduleid']?>">
+		<td>#<?php echo $row['moduleid']?></td>
+		<td editval="<?php echo $row['modulename']?>" editfield="modulename" editid="<?php echo $row['moduleid']?>" class="ajax_edit_module"><?php echo $row['modulename']?></td>
+		<td><a href="" removename="<?php echo $row['modulename']?>" removeid="<?php echo $row['moduleid']?>" class="ajax_remove_module"><?php echo L('remove')?></a></td>
+	  </tr>
+	<?php endforeach;?>    
+	</tbody>  
+	  <tr>
+		<td colspan="3"><input type="text" id="modname"/><button type="button" id="addModBtn"><?php echo L('add_module')?></button></td>
+	  </tr>
+	</table>
+	</div>
+</center>	
+
+<div class="clear"></div>
+
+<div class="tips-div"><?php echo L('opts_tips')?></div>
+
+<!--添加项目的HTML -->
+<textarea id="project_tpl" style="display:none;">
+<div style="width:500px;"><!-- 兼容弹出层IE下的问题  -->
+<form action="" method="post" id="projectfrom">
+<table width="100%">
+  <tr>
+  <td><?php echo L('project_name')?>:</td>
+  <td><input class="ipt" name="projectname" type="text" id="projectname" size="22" /> <span class="txt_red">*</span></td>
+  </tr>
+  <tr>
+    <td><?php echo L('project_info')?>:</td>
+    <td>&lt;textarea class="ipt" name="projectinfo" cols="40" rows="12" id="projectinfo">&lt;/textarea&gt;<br/>
+      </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><button type="button" id="projectSubmitBtn"><?php echo L('submit')?></button></td>
+  </tr>
+</table>  
+</form>
+</div>
+</textarea>
+
+<!-- 添加文档的HTML模块 -->
+<textarea id="add_docs_tpl" style="display:none;">
+<div id="adddoc_div_${n}">
+<?php echo L('doc_name')?>:<input type="text" name="docname_${n}" /><?php echo L('file')?>:<input type="file" name="docfile_${n}" />
+<a href="" class="a_remove_doc" divid="${n}">[Ｘ]</a>
+</div>
+</textarea>

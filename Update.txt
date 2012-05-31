@@ -1,0 +1,8 @@
+
+          Quickbug Update Ver 1.1 => Ver 1.5
+
+1:update SQL
+
+#:mysql -uroot -Dquickbug
+mysql> alter table `quickbug_group` add column `grouptype` tinyint DEFAULT '0' NULL after `createuid`;
+

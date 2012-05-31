@@ -1,0 +1,26 @@
+<script type="text/javascript" src="js/sys.database.js"></script>
+<?php echo includeFile('/Common/Sys-menu.html')?>
+<table width="100%">
+<tr>
+<th><?php echo L('filename')?></th>
+<th><?php echo L('filesize')?></th>
+<th><?php echo L('option')?></th>
+</tr>
+<?php foreach($this->fileList as $row):?>
+<tr>
+<td><?php echo $row['basename']?></td>
+<td><?php echo $this->helper('common')->getFileSize($row['filename'])?></td>
+<td><a href="<?php echo url('sys','database','downfile='.urlencode($row['basename']))?>" target="_blank"><?php echo L('download')?></a>  | <a href="" removeid="<?php echo urlencode($row['basename'])?>" removename="<?php echo $row['basename']?>"  class="ajax_remove"><?php echo L('delete')?></a></td>
+</tr>
+<?php endforeach;?>
+
+<tr><td colspan="3">
+<button type="button" id="saveBtn"><?php echo L('btn_backup_all')?></button>
+<img src="images/loading.gif" id="loadimg" style="display:none;" />
+</td></tr>
+</table>
+<div class="tips-div">
+<b style="color:red"><?php echo L('tips')?></b>:
+<br/>
+<br/>1:<?php echo L('tips_text1')?>
+</div>

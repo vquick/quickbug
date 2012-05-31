@@ -1,0 +1,72 @@
+<script type="text/javascript">
+// 下一步
+function next(){
+	<?php if($this->next):?>
+	location.href = '?c=setup&a=input';
+	<?php else:?>
+	alert('<?php echo L('system_check_fail')?>');
+	<?php endif;?>
+}
+</script>
+<table width="1000" style="margin-top:10px;">
+  <tr>
+    <th colspan="3"><div align="center"><h2><?php echo L('step1_text')?></h2></div></th>
+    </tr>
+  <tr>
+    <td><?php echo L('os')?></td>
+    <td><?php echo $this->os['result']?></td>
+    <td><span class="green">OK</span></td>
+  </tr>
+  <tr>
+    <td><?php echo L('php_ver')?></td>
+    <td><?php echo $this->php['result']?></td>
+    <td>
+	<?php if($this->php['proposal']):?>
+	<span class="green">OK</span>
+	<?php else:?>
+	<span class="red"><?php echo L('php_ver_error')?></span>
+	<?php endif;?>
+	</td>
+  </tr>
+  <tr>
+    <td><?php echo L('php_mysql')?></td>
+    <td><?php echo $this->mysql['result']?></td>
+    <td>
+	<?php if($this->mysql['proposal']):?>
+	<span class="green">OK</span>
+	<?php else:?>
+	<span class="red"><?php echo L('php_mysql_error')?></span>
+	<?php endif;?>
+	</td>
+  </tr>  
+<?php foreach($this->paths as $row):?>  
+  <tr>
+    <td><?php echo $row['title']?></td>
+    <td>
+	<?php if($row['result']):?>
+	<?php echo L('write_enable')?>
+	<?php else:?>
+	<span class="red"><?php echo L('write_disable')?></span>
+	<?php endif;?>	
+	</td>
+    <td>
+	<?php if($row['result']):?>
+	<span class="green">OK</span>
+	<?php else:?>
+	<span class="red"><?php echo L('path_write_disable')?></span>
+	<?php endif;?>
+	</td>
+  </tr>  
+<?php endforeach;?>    
+  <tr>
+    <td colspan="3">
+    <div align="center">
+	<?php if($this->isLocked):?>
+		<span class="red"><?php echo L('setup_notice',array(realpath($this->lockFile)))?></span>
+	<?php else:?>
+		<button type="button" onclick="next();"><?php echo L('next')?></button>
+	<?php endif;?>
+    </div>
+   </td>
+    </tr>
+</table>

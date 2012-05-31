@@ -1,0 +1,124 @@
+<?php
+/**
+ * 权限配置
+ */
+return array(
+	// 权限是否有效
+	'enable'=>true,
+
+	// 任何角色都允许访问的资源
+	'allow'=>array(
+		'index_*',
+		'error_*',
+		'sys_rtxreg',
+		'bug_print',
+		'bug_exportword',
+		'bug_outexcel',
+		'user_selectuser',
+		'user_getusers',
+		'profile_invite',
+		'profile_timer',
+		'profile_removeinvite',
+		'profile_viewinvite',
+		'profile_savedefault',
+		'profile_buglistset',
+		// 菜单导航
+		'bug_nav',
+		'profile_nav',
+	),
+
+	// 权限组
+	'priv'=>array(
+		1=>array(
+			'groupname'=>L('priv.project_manage'),//'项目管理',
+			'resgroup'=>array(
+				1=>array(
+					'name'=>L('priv.view_project'),//'查看项目信息',
+					'resource'=>array('project_view'),
+				),
+			),
+		),
+		2=>array(
+			'groupname'=>L('priv.bug_manage'),//'缺陷管理',
+			'resgroup'=>array(
+				1=>array(
+					'name'=>L('priv.view_bug'),//'浏览缺陷',
+					'resource'=>array(
+						'bug_index',
+						'bug_view',
+					),
+				),
+				2=>array(
+					'name'=>L('priv.comment_bug'),//'评论缺陷',
+					'resource'=>array('bug_process'),
+				),
+				3=>array(
+					'name'=>L('priv.add_bug'),//'添加缺陷',
+					'resource'=>array(
+						'bug_add',
+						'bug_bugtpl',
+						'bug_getversmodules',
+					),
+				),
+				4=>array(
+					'name'=>L('priv.edit_bug'),//'编辑缺陷',
+					'resource'=>array(
+						'bug_edit',
+						'bug_updatebugdoc',
+						'bug_removebugdoc',
+						'bug_bugtpl',
+						'bug_getversmodules',
+					),
+				),
+				5=>array(
+					'name'=>L('priv.remove_bug'),//'删除缺陷',
+					'resource'=>array('bug_remove'),
+				),
+				6=>array(
+					'name'=>L('priv.search_bug'),//'搜索缺陷',
+					'resource'=>array(
+						'bug_search',
+						'bug_gets',
+					),
+				),
+				7=>array(
+					'name'=>L('priv.bug_report'),//'缺陷报表',
+					'resource'=>array(
+						'bug_report',
+						'bug_gets',
+						'bug_flash',
+					),
+				),
+				8=>array(
+					'name'=>L('priv.bug_count'),//'缺陷统计',
+					'resource'=>array(
+						'bug_morecount',
+						'bug_gets',
+					),
+				),
+			),
+		),
+		
+		3=>array(
+			'groupname'=>L('priv.my_manage'),//'我的管理',
+			'resgroup'=>array(
+				1=>array(
+					'name'=>L('priv.my_info'),//'我的资料',
+					'resource'=>array('profile_index'),
+				),
+				2=>array(
+					'name'=>L('priv.my_tpl'),//'我的模板',
+					'resource'=>array(
+						'profile_bugtpl',
+						'profile_html',
+						'profile_addbugtpl',
+						'profile_updatebugtpl',
+						'profile_editbugtpl',
+						'profile_bugtplinfo',
+						'profile_removebugtpl',
+					),
+				),
+			),
+		),
+	)// end 'priv'
+);

@@ -1,0 +1,16 @@
+<div style="width:800px;"><!-- width:700px;兼容弹出层IE下的问题  -->
+<table width="100%">
+	<tr>
+		<td><?php echo L('tpl_name')?></td>
+		<td><input type="text" value="<?php echo $this->tplname?>" id="tplname"></td>
+	</tr>
+	<tr>
+		<td><?php echo L('tpl_demo')?></td>
+		<td><?php echo getFckeditor($this->tplhtml,'fckEditInfo','600px','400px')?></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><button type="button" id="bugtplSubmitBtn"><?php echo L('submit')?></button></td>
+	</tr>
+</table>
+</div>

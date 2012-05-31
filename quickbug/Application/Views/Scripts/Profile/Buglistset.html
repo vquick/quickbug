@@ -1,0 +1,27 @@
+<script type="text/javascript" src="js/profile.invite.js"></script>
+<script type="text/javascript" src="js/profile.buglistset.js"></script>
+<?php echo includeFile('/Common/Profile-menu.html')?>
+<form action="" method="post">
+<div id="myinfo">
+<table width="100%">
+	<tr class="data-tab-title">
+		<th><?php echo L('bug_list_field')?></th>
+	</tr>
+	<tr>
+		<td>
+		<p>
+		<?php foreach($this->fields as $key=>$name):?>
+		<input type="checkbox" name="fields[]" value="<?php echo $key?>" <?php if($this->noSet || fieldIsSet($key)):?>checked="checked"<?php endif;?> /> <?php echo $name?>
+		<?php endforeach;?>
+		</p>
+		</td>
+	</tr>
+	<tr>
+	  <td>
+	  <input type="checkbox" id="chkall" /><?php echo L('check_all')?>
+	  <button id="subBtn" type="button"><?php echo L('submit')?></button>
+	  </td>
+	</tr>
+</table>
+</div>
+</form>

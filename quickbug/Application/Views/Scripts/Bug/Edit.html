@@ -1,0 +1,155 @@
+<script type="text/javascript" src="js/bug.public.js"></script>
+<script type="text/javascript" src="js/bug.edit.js"></script>
+<script type="text/javascript">
+// BUG信息
+var bugInfo = <?php echo json_encode($this->buginfo)?>;
+</script>
+<?php echo includeFile('/Common/Bug-menu.html')?>
+<style type="text/css">
+.sw{
+width:100px;
+}
+.bp{
+margin-left:100px;
+}
+</style>
+<div id="addBugDiv">
+<form enctype="multipart/form-data" method="post" action="">
+<table  width="100%">
+  <tbody><tr>
+    <td><?php echo L('select_tpl')?>:</td>
+    <td>
+	<select id="bugTpl">
+		<option value="0"><?php echo L('default_tpl')?></option>
+		<?php foreach($this->bugtplList as $row):?>  
+		<option value="<?php echo $row['id']?>"><?php echo $row['tplname']?></option>
+		<?php endforeach;?>
+		<option value="-1" style="color:red;"><?php echo L('add_define_tpl')?></option>
+	</select>
+    </td>
+  </tr>
+  <tr>
+    <td><?php echo L('project')?>:</td>
+    <td>
+	<select id="projectid" name="projectid">
+		<option value="0"><?php echo L('select_project')?></option>
+		<?php foreach($this->projectList as $row):?>  
+		<option value="<?php echo $row['projectid']?>"><?php echo $row['projectname']?></option>
+		<?php endforeach;?>
+	</select>
+	<select id="verid" name="verid">
+	<option value="0"><?php echo L('select_ver')?></option>
+	</select>
+	<select id="moduleid" name="moduleid">
+	<option value="0"><?php echo L('select_module')?></option>
+	</select></td>
+  </tr>
+  <tr>
+    <td><?php echo L('subject')?>:</td>
+    <td><input type="text" id="subject" name="subject" value="<?php echo $this->buginfo['subject']?>" size="80"></td>
+  </tr>
+  <tr>
+    <td><?php echo L('bug_info')?>:</td>
+    <td><?php echo getFckeditor($this->buginfo['info'],'fckEditInfo','600px','400px')?></td>
+  </tr>
+  <tr>
+    <td><?php echo L('to_user')?>:</td>
+    <td>
+    <select id="usergroup" name="usergroup" class="sw">
+      <option value="0"><?php echo L('select_group')?></option>
+		<?php foreach($this->groupList as $row):?>  
+		<option value="<?php echo $row['groupid']?>"><?php echo $row['groupname']?></option>
+		<?php endforeach;?>
+    </select>
+    <select id="userid" name="userid" class="sw">
+	<option value="0"><?php echo L('select_user')?></option>
+	</select>
+    </td>
+  </tr>
+  <tr>
+    <td><?php echo L('note_type')?>:</td>
+    <td>
+    <input name="notifyMsg" type="checkbox" value="1" checked="checked" />
+    <?php echo L('system_note')?><span class="notuser"></span>
+    <input name="notifyRtx" type="checkbox" value="1" checked="checked" />
+    <?php echo L('rtx_note')?><span class="notuser"></span>
+    <input name="notifyEmail" type="checkbox" value="1" checked="checked" />
+    <?php echo L('email_note')?><span class="notuser"></span>
+    </td>
+  </tr>  
+  <tr>
+    <td><?php echo L('bug_attrib')?>:</td>
+    <td>
+    <select id="severity" name="severity" class="sw">
+      <option value="0"></option>
+      <?php echo getBugItem('severity',true,$this->buginfo['severity'])?>
+    </select><?php echo L('severity')?>
+    <span class="bp">
+    <select id="frequency" name="frequency" class="sw">
+      <option value="0"> </option>
+	<?php echo getBugItem('frequency',true,$this->buginfo['frequency'])?>
+    </select><?php echo L('frequency')?>
+    </span> 
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><select id="bugtype" name="bugtype" class="sw">
+      <option value="0"> </option>
+	<?php echo getBugItem('bugtype',true,$this->buginfo['bugtype'])?>
+    </select><?php echo L('bugtype')?>
+    <span class="bp">
+    <select id="priority" name="priority" class="sw">
+	<?php echo getBugItem('priority',true,$this->buginfo['priority'])?>
+    </select><?php echo L('priority')?>    
+    </span>
+    </td>
+  </tr>
+
+  <tr>
+    <td><?php echo L('attachment')?>:</td>
+    <td>
+    
+    <?php if($this->bugdocList):?>
+	<table>
+	 <tr class="data-tab-title">
+	    <td width="100"><?php echo L('doc_name')?></td>
+	    <td><?php echo L('time')?></td>
+	    <td><?php echo L('opt')?></td>
+	    <td>&nbsp;</td>
+	  </tr>
+	<tbody id="list_table">
+	<?php foreach($this->bugdocList as $row):?>  
+	  <tr id="remove_doc_tr_<?php echo $row['bugdocid']?>">
+	    <td editval="<?php echo $row['docname']?>" editfield="docname" editid="<?php echo $row['bugdocid']?>" class="ajax_edit_doc"><?php echo $row['docname']?></td>
+	    <td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+	    <td><a href="files/bugdocs/<?php echo $row['docfile']?>" isimg="<?php echo isImage($row['docfile'])?1:0?>" target="_blank"><?php echo L('open')?></a></td>
+	    <td><a href="" removename="<?php echo $row['docname']?>" removeid="<?php echo $row['bugdocid']?>" class="ajax_remove_docs"><?php echo L('remove')?></a></td>
+	  </tr>
+	<?php endforeach;?>    
+	</tbody>  
+	</table>
+     <?php endif;?>	
+         
+    <a id="addDocLink" href="">[<?php echo L('add_atta')?>]</a>（<?php echo L('add_atta_tips')?>） 
+   <div id="uploadFiles"></div>
+    </td>
+  </tr>
+  
+  <tr>
+  <td>&nbsp;</td>
+    <td>
+    <button type="button" savetype="1"><?php echo L('submit_view')?></button>
+    <button type="button" savetype="2"><?php echo L('submit_return')?></button>
+    <!-- <button type="button" savetype="0">存为草稿</button> -->
+      </td>
+    </tr>
+</tbody></table>
+<!-- 提交类型 0:存为草稿 1:发布查看 2:发布返回  -->
+<input type="hidden" value="1" name="savetype" id="savetype" />
+<!-- 上一个地址 -->
+<input type="hidden" value="<?php echo urlencode($this->request->frontUrl())?>" name="fronturl" />
+</form>
+</div>
+<div class="tips-div"><?php echo L('edit_opt_tips')?> </div>
+<?php echo includeFile('/Common/Bug-public-tpl.html')?>

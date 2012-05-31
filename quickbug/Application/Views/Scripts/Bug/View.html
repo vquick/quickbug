@@ -1,0 +1,343 @@
+<script type="text/javascript" src="js/bug.view.js"></script>
+<script type="text/javascript" src="js/selectuser.js"></script>
+<?php echo includeFile('/Common/Bug-menu.html')?>
+<script type="text/javascript">
+// BUG详细信息
+var bugInfo = <?php echo json_encode($this->buginfo)?>;
+// 当前的用户ID
+var currentUid = <?php echo $this->currentUid?>;
+</script>
+<style type="text/css">
+#bugtitle{
+text-align:center;
+}
+.btitle{
+font-size: 16px;
+font-weight: bold;
+}
+#bugopt{
+text-align:right;
+font-size:12px;
+padding-right:10px;
+}
+
+#bugAllInfo{
+width:1100px;
+}
+
+#buginfo{
+height:350px;
+border-bottom: 1px solid #C6D8EF;
+width:700px;
+}
+#ulmenu{
+    clear: both;
+    height: 22px;
+    border-bottom: 1px solid #C6D8EF;
+}
+.on{
+    background-color: #E1ECFE;
+}
+#ulmenu li{
+    list-style: none outside none;
+    display: block;
+    float: left;
+    height: 22px;
+    line-height: 22px;
+    margin-left: 6px;
+    width:100px;
+    text-align:center;
+    font-weight: bold;
+    cursor:pointer;
+    border-top: 1px solid #C6D8EF;
+    border-left: 1px solid #C6D8EF;
+    border-right: 1px solid #C6D8EF;
+}
+.baseli{
+height: 22px;
+font-weight: bold;
+line-height: 22px;
+width: 100px;
+text-align:center;
+}
+.infodiv{
+overflow:auto;
+height:320px;
+padding:4px;
+clear:both;
+}
+.divfloat{
+float:left;
+}
+#bugBaseInfo{
+margin-left: 15px;
+border-bottom: 1px solid #C6D8EF;
+height: 350px;
+}
+.baseinfotab{
+}
+.baseinfotab tr{
+height:32px;
+}
+.tabbor{
+border-color:#fff;
+}
+
+.stitle{
+color: #25619F;
+font-weight: bold;
+}
+.top{
+margin-top:6px;
+}
+#bugcase{
+margin-top:6px;
+background: none repeat scroll 0 0 #F9FBFF;
+/* width:700px; */
+}
+.trbg{
+background-color:rgb(224,230,235);
+}
+</style>
+<div id="bugtitle">
+<span class="btitle">[#<?php echo $this->buginfo['bugid']?>] <?php echo $this->buginfo['subject']?></span> （<?php echo L('bug_stat')?>:<?php echo getBugCfgName('status',$this->buginfo['status'])?>）
+</div>
+
+<div id="bugopt">
+<a href="<?php echo $this->request->frontUrl()?>">&lt;&lt;<?php echo L('return')?></a> 
+| <a href="<?php echo url('bug','exportWord','bugid='.$this->buginfo['bugid'])?>" target="_blank"><?php echo L('export_word')?></a>
+| <a href="<?php echo url('bug','print','bugid='.$this->buginfo['bugid'])?>" target="_blank"><?php echo L('print')?></a>
+| <?php if($this->currentUid == $this->buginfo['createuid']):?>
+<a href="<?php echo url('bug','edit','bugid='.$this->buginfo['bugid'])?>"><?php echo L('edit')?></a> | <a href="<?php echo url('bug','remove','bugid='.$this->buginfo['bugid'].'&bgurl='.urlencode($this->request->frontUrl()))?>" onclick="return confirm('<?php echo L('remove_confirm')?>')"><?php echo L('remove')?></a>
+<?php endif;?>
+</div>
+
+<div id="bugAllInfo">
+	<div id="buginfo" class="divfloat">
+		<ul id="ulmenu">
+			<li item="baseDiv"><?php echo L('bug_info')?></li>
+			<li item="operateDiv"><?php echo L('option_more')?>(<?php echo count($this->operatelist)?>)</li>
+			<li item="historyDiv"><?php echo L('update_history')?>(<?php echo count($this->historyInfo)?>)</li>
+		</ul>
+		<div id="baseDiv" class="infodiv">
+			<?php echo $this->buginfo['info']?>
+		</div>
+		<div id="historyDiv" class="infodiv" style="display:none;">
+			<table class="tabbor" width="100%">
+			<?php foreach($this->historyInfo as $k=>$row):?>
+			  <tr <?php if($k%2==0):?>class="trbg"<?php endif;?>>
+				<td><strong><?php echo $row['subject']?></strong> (<?php echo date('Y-m-d H:i:s',$row['dateline'])?>)</td>
+			  </tr>
+			  <tr <?php if($k%2==0):?>class="trbg"<?php endif;?>>
+				<td><?php echo $row['info']?></td>
+			  </tr>
+			<?php endforeach;?>	
+			</table>			
+		</div>
+		<div id="operateDiv" class="infodiv" style="display:none;">
+			<table class="tabbor" width="100%">
+			<tbody class="list_table">  
+			<?php foreach($this->operatelist as $row):?>
+			  <tr>
+				<td><?php echo rtxUser($row['userid'])?></td>
+				<td><?php echo $row['text']?></td>
+				<td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+			  </tr>
+			<?php endforeach;?>	
+			</tbody>
+			</table>			
+		</div>		
+	</div>
+
+
+	<div id="bugBaseInfo" class="divfloat">
+		<ul>
+		<li class="baseli on"><?php echo L('base_info')?></li>
+		</ul>	
+		<table class="baseinfotab tabbor">
+		<tr>
+			<td width="120"><?php echo L('project')?>:</td>
+			<td><a href="<?php echo url('project','view','projectid='.$this->buginfo['projectid'])?>" target="_blank"><?php echo $this->buginfo['projectname']?></a></td>
+		</tr>
+		<tr>
+			<td><?php echo L('ver')?>:</td>
+			<td><?php echo $this->buginfo['vername']?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('module')?>:</td>
+			<td><?php echo $this->buginfo['modulename']?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('to_user')?>:</td>
+			<td><?php echo rtxUser($this->buginfo['touserid'])?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('creater')?>:</td>
+			<td><?php echo rtxUser($this->buginfo['createuid'])?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('create_time')?>:</td>
+			<td><?php echo date('Y-m-d H:i:s',$this->buginfo['dateline'])?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('severity')?>:</td>
+			<td><?php echo getBugCfgName('severity',$this->buginfo['severity'])?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('frequency')?>:</td>
+			<td><?php echo getBugCfgName('frequency',$this->buginfo['frequency'])?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('bugtype')?>:</td>
+			<td><?php echo getBugCfgName('bugtype',$this->buginfo['bugtype'])?></td>
+		</tr>
+		<tr>
+			<td><?php echo L('priority')?>:</td>
+			<td><?php echo getBugCfgName('priority',$this->buginfo['priority'])?></td>
+		</tr>
+		</table>
+	</div>
+	
+</div>
+
+<div class="clear"></div>
+
+<div class="top">
+	<table class="tabbor" width="700">
+	  <tr>
+		<td colspan="3" class="stitle"><?php echo L('attachment')?>(<?php echo count($this->doclist)?>)</td>
+	  </tr>
+	<tbody class="list_table">  
+	<?php foreach($this->doclist as $row):?>
+	  <tr>
+		<td><?php echo $row['docname']?></td>
+		<td><a href="files/bugdocs/<?php echo $row['docfile']?>" isimg="<?php echo isImage($row['docfile'])?1:0?>" target="_blank"><?php echo L('open')?></a></td>
+		<td>(<?php echo date('Y-m-d H:i:s',$row['dateline'])?>)</td>
+	  </tr>
+	<?php endforeach;?>
+	</tbody>  
+	</table>
+</div>
+
+<div class="top">
+	<table class="tabbor" width="700">
+	  <tr>
+		<td colspan="3" class="stitle"><?php echo L('comments')?>(<?php echo count($this->commentlist)?>)</td>
+	  </tr>
+	<tbody class="list_table">  
+	<?php foreach($this->commentlist as $row):?>
+	  <tr>
+		<td><?php echo rtxUser($row['userid'])?></td>
+		<td><?php echo toHtml($row['info'])?></td>
+		<td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+	  </tr>
+	<?php endforeach;?>
+	</tbody>
+	</table>
+</div>
+
+<div id="bugcase">
+	<table class="tabbor">
+	  <tr>
+		<td class="stitle"><?php echo L('status_transflux')?></td>
+	  </tr>
+	  <tr>
+		<td>
+		<?php if($this->buginfo['status']==1):/*新*/?>		
+			<input type="radio" value="1" name="status" checked="checked" /><?php echo L('new')?> 
+			<input type="radio" value="2" name="status" /><?php echo L('accepted')?>
+			<?php if($this->currentUid == $this->buginfo['touserid']):/*被分配者*/?>
+			<input type="radio" value="3" name="status" /><?php echo L('denied')?>
+			<?php endif;?>
+			<input type="radio" value="4" name="status" /><?php echo L('delay')?>
+			
+			<?php if(in_array($this->currentUid,array($this->buginfo['touserid'],$this->buginfo['createuid']))):/*只有分配者/创建者才有权重新指定*/?>
+			<input type="radio" value="100" name="status" /><?php echo L('reset_to')?><input type="text" readonly="readonly" style="width:100px;" id="bugToUser" /><a href="" id="selToUset"><?php echo L('select_user')?></a>
+			<?php endif;?>
+			
+			<?php if($this->currentUid == $this->buginfo['createuid']):?>
+			<input type="radio" value="5" name="status" /><?php echo L('closed')?>
+			<?php endif;?>	
+			
+		<?php elseif ($this->buginfo['status']==2):/*已接受*/?>
+			<input type="radio" value="2" name="status" checked="checked" /><?php echo L('accepted')?> 
+			<?php if($this->currentUid == $this->buginfo['touserid']):/*被分配者*/?>
+			<input type="radio" value="3" name="status" /><?php echo L('denied')?> 
+			<?php endif;?>
+			<input type="radio" value="6" name="status" /><?php echo L('fixed')?>
+			<input type="radio" value="4" name="status" /><?php echo L('delay')?> 
+			<?php if($this->currentUid == $this->buginfo['createuid']):?>
+			<input type="radio" value="5" name="status" /><?php echo L('closed')?>
+			<?php endif;?>			
+			
+		<?php elseif ($this->buginfo['status']==3):/*已拒绝*/?>
+			<input type="radio" value="3" name="status" checked="checked" /><?php echo L('denied')?>
+			<input type="radio" value="7" name="status" /><?php echo L('reopened')?>
+			<?php if($this->currentUid == $this->buginfo['createuid']):?>
+			<input type="radio" value="5" name="status" /><?php echo L('closed')?>
+			<?php endif;?>
+		
+		<?php elseif ($this->buginfo['status']==4):/*延后挂起*/?>
+			<input type="radio" value="4" name="status" checked="checked" /><?php echo L('delay')?> 
+			<input type="radio" value="6" name="status" /><?php echo L('fixed')?>
+			<input type="radio" value="7" name="status" /><?php echo L('reopened')?>
+			<?php if($this->currentUid == $this->buginfo['createuid']):?>
+			<input type="radio" value="5" name="status" /><?php echo L('closed')?>
+			<?php endif;?>			
+		
+		<?php elseif ($this->buginfo['status']==5):/*已关闭*/?>
+			<input type="radio" value="5" name="status" checked="checked" /><?php echo L('closed')?> 
+			<input type="radio" value="7" name="status" /><?php echo L('reopened')?>
+			
+		<?php elseif ($this->buginfo['status']==6):/*已解决*/?>
+			<input type="radio" value="6" name="status" checked="checked" /><?php echo L('fixed')?> 
+			<input type="radio" value="7" name="status" /><?php echo L('reopened')?>
+			<?php if($this->currentUid==$this->buginfo['createuid'] || $this->isSomeGroup):/*是创建者或是同一个用户组*/?>
+			<input type="radio" value="5" name="status" /><?php echo L('closed')?>
+			<?php endif;?>
+		
+		<?php elseif ($this->buginfo['status']==7):/*重新打开*/?>
+			<input type="radio" value="7" name="status" checked="checked" /><?php echo L('reopened')?>
+			<input type="radio" value="2" name="status" /><?php echo L('accepted')?>
+			<input type="radio" value="4" name="status" /><?php echo L('delay')?> 
+			<?php if($this->currentUid == $this->buginfo['touserid']):?>
+			<input type="radio" value="3" name="status" /><?php echo L('denied')?> 
+			<input type="radio" value="100" name="status" /><?php echo L('reset_to')?><input type="text" readonly="readonly" style="width:100px;" id="bugToUser" /><a href="" id="selToUset"><?php echo L('select_user')?></a>
+			<?php endif;?>
+
+			<?php if($this->currentUid == $this->buginfo['createuid']):?>
+			<input type="radio" value="5" name="status" /><?php echo L('closed')?>
+			<?php endif;?>
+			
+		<?php endif;?>
+		</td>
+	  </tr>
+	  <tr>
+		<td><textarea id="comment" cols="60" rows="4"><?php echo L('comments')?>...</textarea></td>
+	  </tr>
+	  <tr>
+		<td>
+		<input id="inviteBox" type="checkbox" value="1" /><?php echo L('invite')?>
+		<span id="inviteSpan" style="display:none;">
+			<input type="text" id="ivtuser" size="40" value="uname1,uname2"/><a href="" id="selInviteUset"><?php echo L('select_user')?></a>
+		</span>
+		</td>
+	  </tr>
+	  <tr>
+		<td>
+		    <input id="notifyMsg" type="checkbox" value="1" checked="checked" />
+		    <?php echo L('system_note')?>
+		    <input id="notifyRtx" type="checkbox" value="1" checked="checked" />
+		    <?php echo L('rtx_note')?>
+		    <input id="notifyEmail" type="checkbox" value="1" />
+		    <?php echo L('email_note')?>
+		</td>
+	  </tr>
+	  <tr>
+		<td><button type="button" id="submitBtn"><?php echo L('submit')?></button></td>
+	  </tr>
+	</table>  
+</div>
+
+<div class="tips-div"><?php echo L('edit_opt_tips')?> </div>
+<?php echo includeFile('/Common/Bug-public-tpl.html')?>

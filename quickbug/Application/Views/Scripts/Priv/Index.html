@@ -1,0 +1,45 @@
+<script type="text/javascript" src="js/priv.index.js"></script>
+<style type="text/css">
+.plist{
+float:left;
+width:250px;
+}
+.plist p{
+font-size:16px;
+font-weight:bold;
+height:30px;
+line-height:30px;
+}
+</style>
+<form method="post" name="privform" id="privform">
+<table width="100%">
+	<tr>
+		<th style="text-align:left;">
+		<?php echo L('user_group')?>:
+		<select id="groupid" name="groupid">
+		<?php foreach($this->groups as $row):?>
+		<option value="<?php echo $row['groupid']?>"><?php echo $row['groupname']?></option>
+		<?php endforeach;?>
+		</select> 
+		<?php echo L('priv_info')?>:
+		</th>
+	</tr>
+	<tr>
+		<td>
+		<?php foreach($this->privList as $pgid=>$row):?>
+		<div class="plist">
+			<p><input name="privgroupname" type="checkbox" value="<?php echo $pgid?>" /><?php echo $row['groupname']?></p>
+				<?php foreach($row['resgroup'] as $id=>$res):?>
+				<input name="priv[]" privgroupid="<?php echo $pgid?>" <?php if(in_array($pgid.'|'.$id,$this->priv)):?>checked="checked"<?php endif;?> type="checkbox" value="<?php echo $pgid.'|'.$id?>" /><?php echo $res['name']?> <br/>
+				<?php endforeach;?>
+		</div>
+		<?php endforeach;?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<button type="button" id="submitBtn"><?php echo L('submit_priv')?></button>
+		</td>
+	</tr>
+</table>
+</form>

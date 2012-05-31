@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<title><?php echo L('layout.sys_title')?>--<?php echo L('layout.setup')?></title>
+<link href="css/global.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+// 系统根目录
+var G_quickbug_base_url = '<?php echo QP_Sys::config('sysconfig.path')?>';
+</script>
+<style>
+.green{color:green;}
+.red{color:red;}
+#footer {
+    clear: both;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<center>
+	<?php echo $this->LayoutContent?>
+</center>
+<div id="footer">
+   <center> Copyright &#169; 2010-<script type="text/javascript">(function(){document.write(new Date().getFullYear())})()</script> <a href="http://www.vquickbug.com" target="_blank"><?php echo L('layout.sys_title')?></a>
+   <img class="lang" lang="zh" alt="Chinese" title="Chinese" src="images/zh.gif" /> <img class="lang" lang="en" alt="English" title="English"  src="images/en.gif" />
+<script type="text/javascript">
+$(function(){
+	// 语言切换
+	$('#footer .lang').click(function(){
+		var params = 'lang='+$(this).attr('lang');
+		params += '&bgurl='+encodeURIComponent(location.href);
+		location.href = site_url('setup','lang',params);
+	});	
+});
+</script>   
+   </center>
+</div>
+</body>
+</html>

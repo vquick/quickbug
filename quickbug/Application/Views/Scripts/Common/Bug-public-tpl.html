@@ -1,0 +1,28 @@
+<!-- 版本模板 -->
+<textarea id="ver_tpl" style="display:none;">
+{for ver in verlist}
+	<option value="${ver.verid}">${ver.vername}</option>
+{/for}
+</textarea>
+
+<!-- 模块的HTML模板 -->
+<textarea id="module_tpl" style="display:none;">
+{for module in modulelist}
+	<option value="${module.moduleid}">${module.modulename}</option>
+{/for}
+</textarea>
+
+<!-- 用户的HTML模板 -->
+<textarea id="user_tpl" style="display:none;">
+{for user in userlist}
+	<option value="${user.userid}">${user.username}</option>
+{/for}
+</textarea>
+
+<!-- 添加文档的HTML模块 -->
+<textarea id="add_docs_tpl" style="display:none;">
+<div id="adddoc_div_${n}">
+<?php echo L('doc_name')?>:<input type="text" name="docname_${n}" /><?php echo L('attachment')?>:<input type="file" name="docfile_${n}" />
+<a href="" class="a_remove_doc" divid="${n}">[Ｘ]</a>
+</div>
+</textarea> 

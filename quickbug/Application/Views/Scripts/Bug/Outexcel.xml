@@ -1,0 +1,92 @@
+<?php echo '<?xml version="1.0"?>'."\n"?>
+<?php echo '<?mso-application progid="Excel.Sheet"?>'."\n"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>QuickBug</Author>
+  <LastAuthor>QuickBug</LastAuthor>
+  <Created><?php echo date('Y-m-d')?>T<?php echo date('H:i:s')?>Z</Created>
+  <Company>www.vquickbug.com</Company>
+  <Version>12.00</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>9840</WindowHeight>
+  <WindowWidth>15960</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"
+    ss:Bold="1"/>
+   <Interior ss:Color="#B6DDE8" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="<?php echo L('bug_list')?>">
+  <Table ss:ExpandedColumnCount="<?php echo count($this->fields)+2;?>" ss:ExpandedRowCount="<?php echo ($this->bugCount+1)?>" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Row ss:AutoFitHeight="0" ss:StyleID="s62">
+    <Cell><Data ss:Type="String">ID</Data></Cell>
+    <Cell><Data ss:Type="String"><?php echo L('subject')?></Data></Cell>
+    <?php foreach($this->fields as $field):?>
+    <Cell><Data ss:Type="String"><?php echo $this->allFields[$field]?></Data></Cell>
+    <?php endforeach;?>
+   </Row>
+<?php foreach($this->bugList as $row):?>   
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String"><?php echo $row['bugid']?></Data></Cell>
+    <Cell><Data ss:Type="String"><?php echo $row['subject']?></Data></Cell>
+    <?php if(in_array('projectid',$this->fields)):?><Cell><Data ss:Type="String"><?php echo $row['projectname']?></Data></Cell><?php endif;?>
+    <?php if(in_array('verid',$this->fields)):?><Cell><Data ss:Type="String"><?php echo $row['vername']?></Data></Cell><?php endif;?>
+    <?php if(in_array('moduleid',$this->fields)):?><Cell><Data ss:Type="String"><?php echo $row['modulename']?></Data></Cell><?php endif;?>
+    <?php if(in_array('severity',$this->fields)):?><Cell><Data ss:Type="String"><?php echo getBugCfgName('severity',$row['severity'])?></Data></Cell><?php endif;?>
+    <?php if(in_array('frequency',$this->fields)):?><Cell><Data ss:Type="String"><?php echo getBugCfgName('frequency',$row['frequency'])?></Data></Cell><?php endif;?>
+    <?php if(in_array('priority',$this->fields)):?><Cell><Data ss:Type="String"><?php echo getBugCfgName('priority',$row['priority'])?></Data></Cell><?php endif;?>
+    <?php if(in_array('bugtype',$this->fields)):?><Cell><Data ss:Type="String"><?php echo getBugCfgName('bugtype',$row['bugtype'])?></Data></Cell><?php endif;?>
+	<?php if(in_array('status',$this->fields)):?><Cell><Data ss:Type="String"><?php echo getBugCfgName('status',$row['status'])?></Data></Cell><?php endif;?>
+    <?php if(in_array('createuid',$this->fields)):?><Cell><Data ss:Type="String"><?php echo User::getInfo($row['createuid'],'truename')?></Data></Cell><?php endif;?>
+    <?php if(in_array('dateline',$this->fields)):?><Cell><Data ss:Type="String"><?php echo date('Y-m-d H:i:s',$row['dateline'])?></Data></Cell><?php endif;?>
+    <?php if(in_array('touserid',$this->fields)):?><Cell><Data ss:Type="String"><?php echo User::getInfo($row['touserid'],'truename')?></Data></Cell><?php endif;?>
+    <?php if(in_array('lastuptime',$this->fields)):?><Cell><Data ss:Type="String"><?php echo date('Y-m-d H:i:s',$row['lastuptime'])?></Data></Cell><?php endif;?>
+   </Row>
+<?php endforeach;?>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>1</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

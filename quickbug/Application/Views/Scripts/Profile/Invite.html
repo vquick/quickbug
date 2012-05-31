@@ -1,0 +1,36 @@
+<script type="text/javascript" src="js/profile.invite.js"></script>
+<?php echo includeFile('/Common/Profile-menu.html')?>
+<form action="" method="post">
+<div id="myinfo">
+<table width="100%">
+	<tr class="data-tab-title">
+		<td></td>
+		<td><?php echo L('inviter')?></td>
+		<td><?php echo L('option')?></td>
+		<td><?php echo L('bug')?></td>
+		<td><?php echo L('type')?></td>
+		<td><?php echo L('time')?></td>
+		<td></td>
+	</tr>
+	<tbody class="list_table">
+	<?php foreach($this->inviteList as $row):?>
+	<tr id="tr_<?php echo $row['inviteid']?>" inviteid="<?php echo $row['inviteid']?>">
+		<td><input type="checkbox" name="ids[]" value="<?php echo $row['inviteid']?>" /></td>
+		<td><?php echo rtxUser($row['userid'])?></td>
+		<td><a href="<?php echo url('profile','viewinvite',array('id'=>$row['inviteid'],'bugid'=>$row['bugid']))?>" style="<?php echo $row['isread']==1 ? 'color:red;' : ''?>"><?php echo $this->helper('common')->getInviteInfo($row['opt'])?></a></td>
+		<td><a href="<?php echo url('profile','viewinvite',array('id'=>$row['inviteid'],'bugid'=>$row['bugid']))?>"><?php echo $row['subject']?></a></td>
+		<td><?php echo $row['isread']==1 ? L('looked') : '<span style="color:red;">'.L('new_invite').'</span>'?></td>
+		<td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+		<td><a href="" class="ajax_remove" removeid="<?php echo $row['inviteid']?>" removename="<?php echo L('this_invite')?>"><?php echo L('remove')?></a></td>
+	</tr>
+	<?php endforeach;?>
+	</tbody>
+	<tr>
+	  <td colspan="7"><div align="right"><?php echo $this->pageHtml?></div></td>
+	</tr>
+	<tr>
+	  <td colspan="7"><input type="checkbox" id="chkall" /><?php echo L('check_all')?> <button type="submit"><?php echo L('remove')?></button></td>
+	</tr>
+</table>
+</div>
+</form>

@@ -1,0 +1,59 @@
+<script type="text/javascript" src="js/sys.notify.js"></script>
+<script type="text/javascript" src="js/selectuser.js"></script>
+<style>
+.txt{
+width:400px;
+}
+</style>
+<?php echo includeFile('/Common/Sys-menu.html')?>
+<form id="submitForm">
+<table width="100%">
+<tr><th colspan="2"><?php echo L('send_group_msg')?></th></tr>
+<tr>
+<td width="200"><?php echo L('txt_send')?>:</td>
+<td>
+<input type="radio" name="toUser" value="0" checked="checked"/><?php echo L('to_all')?> 
+<input type="radio" name="toUser" value="1" /><?php echo L('to_group')?>
+<select name="userGroup" id="userGroup" style="display:none;">
+<?php foreach($this->groupList as $row):?>
+<option value="<?php echo $row['groupid']?>"><?php echo $row['groupname']?></option>
+<?php endforeach;?>
+</select>
+<input type="radio" name="toUser" value="2" /><?php echo L('to_user')?>
+<span id="userSpan" style="display:none;">
+<input type="text" id="sendUsers" name="sendUsers" /><a href="" id="selInviteUset"><?php echo L('select_user')?></a>
+</span>
+</td>
+</tr>
+<tr>
+<td><?php echo L('title')?>:</td>
+<td><input type="text" id="notTitle" name="notTitle" value="" size="40" class="txt"/></td>
+</tr>
+<tr>
+<td><?php echo L('content')?>:</td>
+<td>
+    <textarea id="notMsg" name="notMsg" cols="40" rows="6" class="txt"></textarea>
+  </td>
+</tr>
+<tr>
+<td>URL:</td>
+<td><input type="text" id="notUrl" name="notUrl" value="<?php echo $this->domain?>" size="40" class="txt"/></td>
+</tr>
+  <tr>
+    <td><?php echo L('txt_type')?>:</td>
+    <td>
+    <input name="notifyRtx" type="checkbox" value="1" checked="checked" />
+    <?php echo L('rtx')?><span class="notuser"></span>
+    <input name="notifyEmail" type="checkbox" value="1" checked="checked" />
+    <?php echo L('email')?><span class="notuser"></span>
+    </td>
+  </tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>
+  <button type="button" id="sendBtn"><?php echo L('btn_send')?></button>
+  <img src="images/loading.gif" id="loadimg" style="display:none;" />
+  </td>
+</tr>
+</table>
+</form>

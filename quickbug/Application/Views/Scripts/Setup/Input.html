@@ -1,0 +1,129 @@
+<script type="text/javascript">
+$(function(){
+	// 邮件通知
+	$('input[name="chkEmail"]').click(function(){
+		var chk = $(this).attr('checked');
+		$('input[name^="email"]').attr('disabled', !chk);
+	});
+	$('input[name="emailuser"]').blur(function(){
+		$('input[name="emailfrom"]').val($(this).val());
+	});
+	// RTX通知
+	$('input[name="chkRtx"]').click(function(){
+		var chk = $(this).attr('checked');
+		$('input[name^="rtx"]').attr('disabled', !chk);
+	});
+	// 安装
+	$('#setupBtn').click(function(){
+		$(this).hide();
+		$('#waitImg').show();
+		var poststr = $('#submitForm').serialize();
+		$.post('?c=setup&a=install',poststr,function(json){
+			$('#waitImg').hide();
+			$('#setupBtn').show();
+			if(json.result != 0){
+				alert(json.message);
+			}else{
+				location.href = '?c=setup&a=done';
+			}
+		},'json');
+	});
+});
+</script>
+<form action="" method="post" id="submitForm">
+<table width="1000" style="margin-top:10px;">
+  <tr>
+    <th colspan="2"><div align="center">
+      <h2><?php echo L('step2_text')?></h2>
+    </div></th>
+    </tr>
+  <tr>
+    <td><input name="checkbox" type="checkbox" disabled="disabled" value="checkbox" checked="checked" />
+      <b><?php echo L('install_db')?></b></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><?php echo L('mysql_host')?> </td>
+    <td><input type="text" name="mysqlhost" value="localhost" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('mysql_port')?> </td>
+    <td><input type="text" name="mysqlport" value="3306" />
+    <?php echo L('mysql_port_tips')?> </td>
+  </tr>  
+  <tr>
+    <td><?php echo L('mysql_user')?> </td>
+    <td><input type="text" name="mysqluser" value="root" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('mysql_passwd')?> </td>
+    <td><input type="password" name="mysqlpass" value="" /></td>
+  </tr>
+  <tr>
+    <td><?php echo L('mysql_db')?> </td>
+    <td><input type="text" name="mysqldb" value="quickbug" />
+    <?php echo L('mysql_db_tips')?></td>
+  </tr>  
+  
+  <tr>
+    <td><input name="chkEmail" type="checkbox" value="1" /><b><?php echo L('is_use_email')?></b></td>
+    <td>&nbsp;</td>
+  </tr>  
+  <tr>
+    <td><?php echo L('smtp_host')?> </td>
+    <td><input name="emailhost" type="text" disabled="disabled" />
+    <?php echo L('smtp_host_tips')?> </td>
+  </tr>  
+  <tr>
+    <td><?php echo L('smtp_port')?> </td>
+    <td><input type="text" name="emailport" value="25"  disabled="disabled" />
+      <?php echo L('smtp_port_tips')?> </td>
+  </tr>  
+  <tr>
+    <td><?php echo L('protocol')?></td>
+    <td><input name="emailsecure" type="radio" value=""  disabled="disabled" checked="checked" /><?php echo L('default')?> <input  disabled="disabled" name="emailsecure" type="radio" value="ssl" />SSL</td>
+  </tr>  
+  <tr>
+    <td><?php echo L('smtp_user')?></td>
+    <td><input type="text" name="emailuser"  disabled="disabled"/></td>
+  </tr>  
+  <tr> 
+    <td><?php echo L('smtp_passwd')?></td>
+    <td><input type="password" name="emailpass"  disabled="disabled"/></td>
+  </tr>  
+  <tr>
+    <td><?php echo L('from_user')?></td>
+    <td><input type="text" name="emailfrom"  disabled="disabled"/>
+    <?php echo L('from_user_tips')?></td>
+  </tr>    
+  
+  <tr>
+    <td colspan="2"><input name="chkRtx" type="checkbox" value="1" />
+    <b><?php echo L('is_use_rtx')?></b></td>
+    </tr>  
+  <tr>
+    <td><?php echo L('rtx_host')?> </td>
+    <td><input name="rtxhost" type="text" disabled="disabled" />    </td>
+  </tr>  
+  <tr>
+    <td><?php echo L('rtx_web_port')?></td>
+    <td><input type="text" name="rtxport" value="8012"  disabled="disabled" />
+     <?php echo L('rtx_web_port_tips')?></td>
+  </tr>  
+  
+  
+  <tr>
+    <td colspan="2">
+      <div align="center">
+      <?php if($this->isLocked):?>
+	      <span class="red"><?php echo L('setup_notice',array(realpath($this->lockFile)))?></span>
+      <?php else:?>
+	  <img id="waitImg" style="display:none;" src="images/loading.gif" />
+	  <button type="button" id="setupBtn"><?php echo L('finish')?></button>
+      <?php endif;?>    	  
+      </div>
+      </td>
+    </tr>
+	
+</table>
+</form>

@@ -1,0 +1,126 @@
+<style type="text/css">
+.divBlock{
+width:600px;
+border: 1px solid #C5D7EF;
+margin-bottom:6px;
+text-align:left;
+}
+#pinfo{
+height:150px;
+overflow:auto;
+margin-top:10px;
+margin-bottom:10px;
+line-height:150%;
+}
+
+.addPro{
+margin:10px;
+}
+.optPro{
+text-align:right;
+margin-right:10px;
+margin-bottom:10px;
+}
+.proName{
+color:#6699FF;height:35px;line-height:35px;font-size:20px;font-weight:bold;
+}
+</style>
+<!--[if IE]>
+<style>
+h2{
+	padding-top:6px;
+}
+</style>
+<![endif]--> 
+
+<center>
+<div>
+	<div class="divBlock">
+	<div align="center" style="background: none repeat scroll 0 0 #E1ECFE;"><div class="proName"><?php echo $this->projectInfo['projectname']?></div></div>
+	
+	<div class="addPro"><strong><?php echo L('vers_num')?>:</strong><?php echo $this->projectInfo['versnum']?> <strong><?php echo L('modules_num')?>:</strong><?php echo $this->projectInfo['modulesnum']?> <strong><?php echo L('bugs_num')?>:</strong><?php echo $this->projectInfo['bugsnum']?> <strong><?php echo L('docs_num')?>:</strong><?php echo $this->projectInfo['docsnum']?> </div>
+	
+	<?php if($this->projectInfo['info']):?>
+	<div id="pinfo"><?php echo toHtml($this->projectInfo['info'])?></div>
+	<?php endif;?>
+	</div>
+	
+	<div class="divBlock">
+	<table width="100%">
+	 <tr>
+	   <td colspan="5"><div align="center"><h2><?php echo L('project_doc')?></h2></div></td>
+	 </tr>
+<?php if($this->docsList):?>	 
+	 <tr class="data-tab-title">
+		<td>#ID</td>
+		<td><?php echo L('doc_name')?></td>
+		<td><?php echo L('doc_size')?></td>
+		<td><?php echo L('doc_time')?></td>
+		<td><?php echo L('doc_opt')?></td>
+	</tr>
+	<tbody class="list_table">  
+	<?php foreach($this->docsList as $row):?>  
+	  <tr id="remove_doc_tr_<?php echo $row['pjdocid']?>">
+		<td>#<?php echo $row['pjdocid']?></td>
+		<td><?php echo $row['docname']?></td>
+		<td><?php echo showFileSize($row['docsize'])?></td>
+		<td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+		<td><a href="files/projectdocs/<?php echo $row['docfile']?>" isimg="<?php echo isImage($row['docfile'])?1:0?>" target="_blank"><?php echo L('open')?></a></td>
+		</tr>
+	<?php endforeach;?>
+	</tbody>  
+<?php else:?>		
+	 <tr>
+	   <td colspan="5"><div align="center"><?php echo L('no_doc')?></div></td>
+	 </tr>
+<?php endif;?>	
+	</table>
+	</div>
+</div>
+
+<div class="clear"></div>
+
+<div style="margin-top:10px;">
+
+	<div class="divBlock">
+	<table width="100%">
+	 <tr>
+	   <td colspan="5"><div align="center"><h2><?php echo L('project_ver')?></h2></div></td>
+	   </tr>
+	 <tr class="data-tab-title">
+		<td>#ID</td>
+		<td><?php echo L('ver_name')?></td>
+		</tr>
+	 <tbody class="list_table">    
+	<?php foreach($this->versList as $row):?>  
+	  <tr id="remove_ver_tr_<?php echo $row['verid']?>">
+		<td>#<?php echo $row['verid']?></td>
+		<td><?php echo $row['vername']?></td>
+		</tr>
+	<?php endforeach;?>    
+	</tbody>  
+	</table>
+	</div>
+	
+	<div class="divBlock">
+	<table width="100%">
+	 <tr>
+	   <td colspan="5"><div align="center"><h2><?php echo L('project_module')?></h2></div></td>
+	   </tr>
+	 <tr class="data-tab-title">
+		<td>#ID</td>
+		<td><?php echo L('module_name')?></td>
+		</tr>
+	 <tbody class="list_table">    
+	<?php foreach($this->modulesList as $row):?>  
+	  <tr id="remove_module_tr_<?php echo $row['moduleid']?>">
+		<td>#<?php echo $row['moduleid']?></td>
+		<td><?php echo $row['modulename']?></td>
+	 </tr>
+	<?php endforeach;?>    
+	</tbody>  
+	</table>
+	</div>
+</div>
+
+</center>

@@ -1,0 +1,18 @@
+<script type="text/javascript" src="js/profile.bugtpl.js"></script>
+<?php echo includeFile('/Common/Profile-menu.html')?>
+<table width="100%">
+<tr class="data-tab-title">
+	<td width="150"><?php echo L('tpl_name')?></td>
+	<td width="500"><?php echo L('tpl_demo')?></td>
+	<td>&nbsp;</td>
+</tr>
+<?php foreach($this->bugtplList as $row):?>  
+<tr id="remove_tr_<?php echo $row['id']?>">
+    <td editval="<?php echo $row['tplname']?>" editid="<?php echo $row['id']?>" editfield="tplname" class="ajax_edit"><?php echo $row['tplname']?></td>
+    <td><?php echo $row['tplhtml']?></td> 
+    <td><a href="" editid="<?php echo $row['id']?>" class="edit_bugtpl"><?php echo L('edit')?></a> | <a href="" removeid="<?php echo $row['id']?>" removename="<?php echo $row['tplname']?>" class="ajax_remove"><?php echo L('remove')?></a></td>
+</tr>
+<?php endforeach;?>    
+</table>
+<button type="button" id="addBugtplBtn"><?php echo L('add_bug_tpl')?></button>
+

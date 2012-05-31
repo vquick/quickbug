@@ -1,0 +1,224 @@
+<script type="text/javascript" src="js/bug.search.js"></script>
+<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="js/selectuser.js"></script>
+<?php echo includeFile('/Common/Bug-menu.html')?>
+<style type="text/css">
+#select_project{
+text-align:left;
+margin-bottom: 10px;
+}
+#list_title{
+}
+
+#proTitle{
+cursor:pointer;
+font-size:22px;
+font-weight:bold;
+}
+
+#promenu{
+border: 1px solid #C5D7EF;
+left:10px;
+cursor:pointer;
+display:none;
+position:absolute;
+width:140px;
+background-color:mintcream;
+}
+#list_title span{
+color:red;
+font-size:12px;
+}
+#buglisttab{
+margin-top: 6px;
+margin-bottom: 6px;
+}  
+.lt{
+ color: #266298;
+}
+.bt{
+color: #999999;
+}
+.rb{
+color:red;
+font-weight:bold;
+}
+
+.Wdate {
+    background: url("js/My97DatePicker/skin/datePicker.gif") no-repeat scroll right center #FFFFFF;
+    border: 1px solid #C5D7EF;
+    height: auto;
+}
+</style>
+<div id="list_bugs">
+<form method="post" action="" id="searchform">
+<table width="100%">
+  <tr>
+    <td><?php echo L('project')?>:</td>
+    <td>
+	<select id="projectid" name="projectid">
+		<option value="0"><?php echo L('all_project')?></option>
+	</select>	
+	<select id="verid" name="verid">
+		<option value="0"><?php echo L('all_ver')?></option>
+	</select>
+	<select id="moduleid" name="moduleid">
+		<option value="0"><?php echo L('all_module')?></option>
+	</select>
+	</td>
+  </tr>
+  <tr>
+    <td width="13%"><?php echo L('search_condition')?>:</td>
+    <td width="87%">
+	<input name="opt" type="radio" value="1" checked="checked" />
+	<?php echo L('and')?>
+	<input type="radio" name="opt" value="2" /><?php echo L('or')?>	</td>
+  </tr>
+  <tr>
+    <td>ID</td>
+    <td>
+	<select name="select[bugid]" id="select[bugid]">
+      <option value="0"><?php echo L('like')?></option>
+      <option value="1"><?php echo L('start_like')?></option>
+      <option value="2"><?php echo L('end_like')?></option>
+	  <option value="3"><?php echo L('eq')?></option>
+	  <option value="4"><?php echo L('ne')?></option>
+    </select>
+	<input type="text" name="bugid" id="bugid" />	</td>
+  </tr>
+  <tr>
+    <td><?php echo L('subject')?></td>
+    <td><select name="select[subject]" id="select[subject]">
+      <option value="0"><?php echo L('like')?></option>
+      <option value="1"><?php echo L('start_like')?></option>
+      <option value="2"><?php echo L('end_like')?></option>
+      <option value="3"><?php echo L('eq')?></option>
+      <option value="4"><?php echo L('ne')?></option>
+    </select>
+      <input type="text" name="subject" id="subject"/></td>
+  </tr>
+  <tr>
+    <td><?php echo L('to_user')?>:</td>
+    <td><select name="select[touserid]" id="select[touserid]">
+      <option value="0"><?php echo L('like')?></option>
+      <option value="1"><?php echo L('start_like')?></option>
+      <option value="2"><?php echo L('end_like')?></option>
+      <option value="3"><?php echo L('eq')?></option>
+      <option value="4"><?php echo L('ne')?></option>
+    </select>
+      <input type="text" name="touserid" id="touserid" /><a href="" id="selToUser"><?php echo L('select_user')?></a></td>
+  </tr>
+  <tr>
+    <td><?php echo L('creater')?>:</td>
+    <td><select name="select[createuid]" id="select[createuid]">
+      <option value="0"><?php echo L('like')?></option>
+      <option value="1"><?php echo L('start_like')?></option>
+      <option value="2"><?php echo L('end_like')?></option>
+      <option value="3"><?php echo L('eq')?></option>
+      <option value="4"><?php echo L('ne')?></option>
+    </select>
+      <input type="text" name="createuid" id="createuid" /><a href="" id="selCatUser"><?php echo L('select_user')?></a></td>
+  </tr>
+  <tr>
+    <td><?php echo L('severity')?>:</td>
+    <td>
+	<?php foreach(getBugItem('severity',false) as $k=>$val):?>
+	<input name="severity[<?php echo $k?>]" type="checkbox" value="<?php echo $k?>" /><?php echo $val?>
+	<?php endforeach;?>
+	</td>
+  </tr>
+  <tr>
+    <td><?php echo L('bugtype')?>:</td>
+    <td>
+	<?php foreach(getBugItem('bugtype',false) as $k=>$val):?>
+	<input name="bugtype[<?php echo $k?>]" type="checkbox" value="<?php echo $k?>" /><?php echo $val?>
+	<?php endforeach;?>	</td>
+  </tr>
+  <tr>
+    <td><?php echo L('bug_stat')?>:</td>
+    <td>
+	<?php foreach(getBugItem('status',false) as $k=>$val):?>
+	<input name="status[<?php echo $k?>]" type="checkbox" value="<?php echo $k?>" /><?php echo $val?>
+	<?php endforeach;?>
+	</td>
+  </tr>
+  <tr>
+    <td><?php echo L('priority')?>:</td>
+    <td>
+	<?php foreach(getBugItem('priority',false) as $k=>$val):?>
+	<input name="priority[<?php echo $k?>]" type="checkbox" value="<?php echo $k?>" /><?php echo $val?>
+	<?php endforeach;?>
+	</td>
+  </tr>
+  <tr>
+    <td><?php echo L('create_time')?>:</td>
+    <td><input name="starttime" id="starttime" type="text" readonly="true" class="Wdate" onClick="WdatePicker()"/>
+      <?php echo L('begin')?> 
+      <input name="endtime" id="endtime" type="text" readonly="true" class="Wdate" onClick="WdatePicker()"/>
+      <?php echo L('end')?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><button type="button" id="searchBtn"><?php echo L('search_bug')?></button></td>
+  </tr>
+</table>
+<input type="hidden" value="1" name="issearch" />
+</form>
+
+<?php if($this->bugList):?>
+	<?php $getPid = $this->request->getGet('projectid',0)?>
+	<div class="pager"><?php echo $this->pageHtml?></div>
+	<table width="100%" id="buglisttab">  
+	  <tr class="data-tab-title">
+	    <td>ID</td>
+	    <td width="20%"><?php echo L('subject')?></td>
+	   <?php if($getPid <1):?>
+	   <td><?php echo L('project')?></td>
+	   <?php endif;?>
+	    <td><?php echo L('ver')?></td>
+	    <td><?php echo L('module')?></td>
+	    <td><?php echo L('severity')?></td>
+	    <td><?php echo L('status')?></td>
+	    <td><?php echo L('to_user')?></td>
+	    <td><?php echo L('create_time')?></td>
+	    <td><?php echo L('creater')?></td>
+	    <td><?php echo L('opt')?></td>
+	  </tr>
+	<tbody id="list_table">
+	<?php foreach($this->bugList as $row):?>  
+	  <tr class="<?php echo $row['status']==5 ? 'bt':''?>">
+	    <td class="<?php echo $row['status']==5 ? 'bt':'lt'?>"><?php echo $row['bugid']?></td>
+	    <td>
+	    <a href="<?php echo url('this','view','bugid='.$row['bugid'])?>"><span class="<?php echo $row['status']==5 ? 'bt':'lt'?>"><?php echo $row['subject']?></span></a>
+	    </td>
+	    <?php if($getPid <1):?>
+	    <td><?php echo $row['projectname']?></td>
+	    <?php endif;?>
+	    <td><?php echo $row['vername']?></td>
+	    <td><?php echo $row['modulename']?></td>
+	    <td class="<?php echo $row['severity']>3 ? 'rb' : ''?>"><?php echo getBugCfgName('severity',$row['severity'])?></td>
+	    <td><?php echo getBugCfgName('status',$row['status'])?></td>
+	    <td><?php echo rtxUser($row['touserid'])?></td>
+	    <td><?php echo date('Y-m-d H:i:s',$row['dateline'])?></td>
+	    <td><?php echo rtxUser($row['createuid'])?></td>
+	    <td>
+	    <?php if($this->currentUid == $row['createuid']):?>
+	    <a href="<?php echo url('this','edit','bugid='.$row['bugid'])?>"><?php echo L('edit')?></a>
+	    <?php endif;?>
+	    </td>
+	  </tr>
+	<?php endforeach;?>   
+	</tbody>  
+	</table>
+	<div class="pager"><?php echo $this->pageHtml?></div>
+<?php endif;?>
+
+</div>
+
+<!-- 下拉列表板块 -->
+<textarea id="options_tpl" style="display:none;">
+{for row in list}
+<option value="${row.key}">${row.value}</option>
+{/for}
+</textarea>
+
