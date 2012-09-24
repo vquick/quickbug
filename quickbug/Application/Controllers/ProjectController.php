@@ -114,8 +114,13 @@ class ProjectController extends BaseController
 	 */
 	public function removeprojectAction(){
 		$projectid = $this->request->getGet('projectid');
-		$info = $this->model->removeProject($projectid);
-		$this->outputJson(0,'ok',$info);
+		$ret = $this->model->removeProject($projectid);
+		$msgMap = array(
+			0=>'ok',
+			-1=>L('denied_options'),// 操作拒绝
+			-2=>L('only_project_not_remove'),// 不能删除唯一的项目
+		);
+		$this->outputJson($ret,$msgMap[$ret]);
 	}	
 	
 	/**

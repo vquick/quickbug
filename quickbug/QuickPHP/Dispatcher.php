@@ -105,10 +105,10 @@ class QP_Dispatcher
 		// 是否自动输出视图
 		if($controller->viewIsAutoRender()){
 			$controller->view->setPath($this->_controllerPath);
-			$viewContent .= $controller->view->render($this->_action.'.html');
+			$viewContent .= $controller->view->render($this->_action.QP_View::getDefaultExt());
 
 			// 使用的视图
-			$this->_setDebugInfo('view',$this->_action.'.html');
+			$this->_setDebugInfo('view',$this->_action.QP_View::getDefaultExt());
 		}
 
 		// 是否启用了 Layout
@@ -236,7 +236,8 @@ class QP_Dispatcher
 	 * @param string $key 键
 	 * @param string $value 内容
 	 */
-	private function _setDebugInfo($key,$value){
+	private function _setDebugInfo($key,$value)
+	{
 		if($this->_appConfig['debug']){
 			$this->_debugInfo[$key] = $value;
 		}

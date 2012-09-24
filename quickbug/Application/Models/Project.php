@@ -112,8 +112,13 @@ class Model_Project extends Model_base{
 		// 是否创建者本人
 		$proInfo = $this->db->getRow($this->projectTable)->where(array('projectid'=>$projectid))->result();
 		if($proInfo['userid'] != $this->userid){
-			return false;
+			return -1;
 		}
+		// 如果只有一个项目则不能删除
+		if($this->db->count($this->projectTable, array('userid'=>$this->userid)) <= 1){
+			return -2;
+		}
+
 		// 删除项目所有的文档
 		$dosList = $this->docsList($projectid);
 		foreach ($dosList as $doc){
@@ -125,6 +130,7 @@ class Model_Project extends Model_base{
 		$this->db->delete($this->verTable,array('projectid'=>$projectid));
 		// 删除模块
 		$this->db->delete($this->moduleTable,array('projectid'=>$projectid));
+		return 0;
 	}
 
 	/**

@@ -35,6 +35,7 @@ return array(
 
 	'denied_options'=>'Invalid operate',// '非法操作'
 	'project_not_exist'=>'Project do not exist',// '指定的项目不存'
+	'only_project_not_remove'=>'Only project do not remove',// '唯一的项目不能删除'
 
 	'default_module'=>'Default module',// '默认模块'
 );

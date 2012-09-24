@@ -435,6 +435,10 @@ class Model_User extends Model_base{
 	 * @return boolean
 	 */
 	public function checkOpt($id,$idtype=1){
+		// 如果是超级管理员则有所有权限
+		if(QP_Session_Session::get('login_priv') == 3){
+			return true;
+		}
 		// 用户就要得到对应的项目管理
 		if($idtype == 1){
 			$pcUid = $this->projectCreateUid($id);
